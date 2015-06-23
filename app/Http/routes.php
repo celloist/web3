@@ -14,3 +14,20 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//CMS routes
+Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
+	Route::resource('login', 'Login', [
+		'only' => [
+			'index', 
+			'post'
+		],
+        'names' => [
+        	'create' => 'login.post'
+        ]
+    ]);
+
+	Route::group(['middleware' => 'auth:login'], function () {
+
+	});
+});
