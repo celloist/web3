@@ -29,18 +29,11 @@ Route::get('/contact', function () {
 
 //CMS routes
 Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
-	Route::resource('login', 'Login', [
-		'only' => [
-			'index', 
-			'post'
-		],
-        'names' => [
-        	'create' => 'login.post'
-        ]
-    ]);
+	Route::get('login', ['uses' => 'Login@index', 'as' => 'cmsLogin']);
+	Route::post('login', ['uses' => 'Login@login', 'as' => 'cmsLogin']);
 
 	Route::group(['middleware' => 'auth:login'], function () {
-
+		
 	});
 });
 

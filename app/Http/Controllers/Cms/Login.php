@@ -20,12 +20,24 @@ class Login extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly store resource in storage.
      *
      * @return Response
      */
-    public function post()
+    public function login(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|unique:posts|max:255',
+            'password' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+            return redirect('cmsLogin')->withErrors($validator)
+                                        ->withInput(); 
+        } else {
+            return redirect('dashboard');
+        }
+
     }
 }
