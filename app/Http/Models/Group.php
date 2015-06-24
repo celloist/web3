@@ -4,7 +4,7 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class group extends Model
+class Group extends Model
 {
     //
 }

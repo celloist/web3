@@ -5,7 +5,7 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class orderrow extends Model
+class Orderrow extends Model
 {
     //
 }
