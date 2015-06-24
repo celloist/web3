@@ -15,19 +15,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+<<<<<<< HEAD
 Route::get('/about', function () {
     return view('customerPages/about');
 });
 
-
+=======
 //CMS routes
 Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
-	Route::get('login', ['uses' => 'Login@index', 'as' => 'cmsLogin']);
-	Route::post('login', ['uses' => 'Login@login', 'as' => 'cmsLogin']);
+	Route::resource('login', 'Login', [
+		'only' => [
+			'index', 
+			'post'
+		],
+        'names' => [
+        	'create' => 'login.post'
+        ]
+    ]);
 
 	Route::group(['middleware' => 'auth:login'], function () {
-		
+
 	});
 });
-
+>>>>>>> 27a151991f293b9400d463a23d873f6f54729fcc
