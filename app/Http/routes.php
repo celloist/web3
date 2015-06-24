@@ -17,7 +17,13 @@ Route::get('/', function () {
 
 
 Route::get('/about', function () {
-    return view('customerPages/about');
+    return View('customerPages.about');
+});
+Route::get('/policy', function () {
+	return View('customerPages.policy');
+});
+Route::get('/contact', function () {
+	return View('customerPages.contact');
 });
 
 
