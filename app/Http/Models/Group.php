@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-	protected $timestamps = false;
+	public $timestamps = false;
 	/**
      * Get the phone record associated with the user.
      */

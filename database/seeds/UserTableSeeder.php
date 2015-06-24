@@ -26,5 +26,7 @@ class UserTableSeeder extends Seeder
 		$user->active = true;
 		$user->name = 'Admin';
 		$user->lastname = 'Istrator';  
+
+        $user->save();
     }
 }
