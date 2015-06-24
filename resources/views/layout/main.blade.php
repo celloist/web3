@@ -6,10 +6,9 @@
         <link rel="stylesheet" href="/css/main.css" />
         <script src="/js/vendor/modernizr.js"></script>
     </head>
+
     <body>
-        <div class="container">
-            @yield("content")
-        </div>
+        @yield("content")
 
         @section("scripts")
             <script src="/js/vendor/jquery.js"></script>
