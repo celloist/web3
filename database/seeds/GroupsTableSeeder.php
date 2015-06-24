@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Http\Models\Group;
 
 class GroupsTableSeeder extends Seeder
 {
@@ -11,6 +12,21 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        Groups::make();
+    	$groups = [
+    		'super_admin',
+    		'cms_admin',
+    		'user'
+    	];
+
+    	foreach ($groups as $groupName) {    		
+    		$group = new Group();
+	        $group->name = $groupName;
+
+	        if (!$group->save()){
+	        	throw new Exception("Could not save group: ". $groupName);
+	        }	
+    	}
+        
+
     }
 }

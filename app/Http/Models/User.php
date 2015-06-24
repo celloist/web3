@@ -32,4 +32,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function group()
+    {
+        return $this->hasOne('App\Http\Models\Group');
+    }
 }
