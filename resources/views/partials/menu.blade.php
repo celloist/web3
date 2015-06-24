@@ -30,6 +30,9 @@
             <li class="has-dropdown">
                 <a href="#">Right Button Dropdown</a>
                 <ul class="dropdown">
+                    @foreach ($menus as $menu)
+                        <li><a href="{{$menu->link}}">{{$menu->name}}</a></li>
+                    @endforeach
                     <li><a href="#">First link in dropdown</a></li>
                     <li class="active"><a href="#">Active link in dropdown</a></li>
                 </ul>

@@ -7,6 +7,7 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Http\Models\Navigation;
 use Illuminate\Contracts\View\View;
 
 class MenuComposer {
@@ -16,20 +17,6 @@ class MenuComposer {
      *
      * @var UserRepository
      */
-    $menus = Navigation::all();
-
-    /**
-     * Create a new profile composer.
-     *
-     * @param  UserRepository  $users
-     * @return void
-     */
-    public function __construct(UserRepository $users)
-    {
-        // Dependencies automatically resolved by service container...
-        $this->users = $users;
-    }
-
     /**
      * Bind data to the view.
      *
@@ -38,7 +25,9 @@ class MenuComposer {
      */
     public function compose(View $view)
     {
-        $view->with('count', $this->users->count());
+        $menus = Navigation::allSorted()->get();
+
+        $view->with('menus', $menus);
     }
 
 }
