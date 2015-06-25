@@ -1,5 +1,4 @@
 @extends('layout.frontend')
-
 @section('fcontent')
     <div class="row">
 

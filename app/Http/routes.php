@@ -11,25 +11,22 @@
 |
 */
 
-Route::get('/', ['as' => 'home', function () {
-    return view('welcome');
-}]);
+Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
 
 //Frontend routes
-Route::get('/about', function () {
+Route::get('/about',['as' => 'about', function () {
     return View('customerPages.about');
-});
-Route::get('/policy', function () {
+}]);
+Route::get('/policy',['as' => 'policy', function () {
 	return View('customerPages.policy');
-});
-Route::get('/contact', function () {
+}]);
+Route::get('/contact',['as' => 'contact', function () {
 	return View('customerPages.contact');
-});
+}]);
 
-Route::get('categories/{id}', ['uses'=>'Frontend\Products@index']);
-Route::resource('products/categories', 'Frontend\Products');
-Route::resource('navigation', 'Frontend\Navigation');
-Route::resource('categories', 'Frontend\Categories');
+Route::get('categories/{id}', ['as' => 'categories/','uses'=>'Frontend\Products@index']);
+Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
+Route::get('categories', ['as' => 'categories', 'uses' => 'Frontend\Categories@index']);
 
 
 

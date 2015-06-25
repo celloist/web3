@@ -1,5 +1,5 @@
 @extends('layout.frontend')
-
+@section('breadcrumbs', Breadcrumbs::render('products'))
 @section('fcontent')
     <div class="row">
         <div class="large-12 columns">
