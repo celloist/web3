@@ -15,7 +15,7 @@ Route::get('/', ['as' => 'home', function () {
     return view('welcome');
 }]);
 
-
+//Frontend routes
 Route::get('/about', function () {
     return View('customerPages.about');
 });
@@ -25,6 +25,12 @@ Route::get('/policy', function () {
 Route::get('/contact', function () {
 	return View('customerPages.contact');
 });
+
+Route::get('categories/{id}', ['uses'=>'Frontend\Products@index']);
+Route::resource('products/categories', 'Frontend\Products');
+Route::resource('navigation', 'Frontend\Navigation');
+Route::resource('categories', 'Frontend\Categories');
+
 
 
 //CMS routes

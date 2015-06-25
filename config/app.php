@@ -145,6 +145,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\NavigationServiceProvider::class,
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
 
     ],
 

@@ -2,7 +2,7 @@
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
-            <h1><a href="#">My Site</a></h1>
+            <h1><a href="{{url('categories')}}">GoldenFingers</a></h1>
         </li>
         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
         <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -10,11 +10,21 @@
 
     <section class="top-bar-section">
         <!-- Right Nav Section -->
+
+        <!-- Left Nav Section -->
+        <ul class="left">
+            @foreach ($menus as $menu)
+                <li><a href="{{url($menu->link)}}">{{$menu->name}}</a></li>
+            @endforeach
+        </ul>
+        </li>
+        </ul>
+
         <ul class="right">
             <li class="has-form">
                 <div class="row collapse">
                     <div class="large-8 small-9 columns">
-                        <input type="text" placeholder="Find Stuff">
+                        <input type="text" placeholder="Products">
                     </div>
                     <div class="large-4 small-3 columns">
                         <a href="#" class="alert button expand">Search</a>
@@ -24,20 +34,14 @@
 
         </ul>
 
-        <!-- Left Nav Section -->
-        <ul class="left">
-            <li class="active"><a href="#">Right Button Active</a></li>
-            <li class="has-dropdown">
-                <a href="#">Right Button Dropdown</a>
-                <ul class="dropdown">
-                    @foreach ($menus as $menu)
-                        <li><a href="{{$menu->link}}">{{$menu->name}}</a></li>
-                    @endforeach
-                    <li><a href="#">First link in dropdown</a></li>
-                    <li class="active"><a href="#">Active link in dropdown</a></li>
-                </ul>
-            </li>
-        </ul>
+
+
     </section>
 </nav>
+    <ul class="breadcrumbs">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Features</a></li>
+        <li class="unavailable"><a href="#">Gene Splicing</a></li>
+        <li class="current"><a href="#">Cloning</a></li>
+    </ul>
 </div>
