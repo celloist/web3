@@ -2,7 +2,7 @@
 <html>
     <head>
 
-        <title>Goldenfinger - @yield("title", "Default")</title>
+        <title>Goldenfingers - @yield("title", "Default")</title>
         <link rel="stylesheet" href="/css/foundation.min.css" />
         <link rel="stylesheet" href="/css/main.css" />
         <script src="/js/vendor/modernizr.js"></script>

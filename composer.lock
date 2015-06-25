@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d86063e8a2cd93e29c8bda8f2b310066",
+    "hash": "70700be105a1a4a1dbdc8f0c8d9f5946",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -65,6 +65,56 @@
                 "preload"
             ],
             "time": "2015-05-26 10:57:51"
+        },
+        {
+            "name": "creitive/breadcrumbs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creitive/breadcrumbs.git",
+                "reference": "9737b7b7ad76a51772b738193937584d3938e647"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/creitive/breadcrumbs/zipball/9737b7b7ad76a51772b738193937584d3938e647",
+                "reference": "9737b7b7ad76a51772b738193937584d3938e647",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4",
+                "symfony/css-selector": "~2.0",
+                "symfony/dom-crawler": "~2.0",
+                "way/laravel-test-helpers": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Creitive\\Breadcrumbs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT License"
+            ],
+            "authors": [
+                {
+                    "name": "Luka Macun",
+                    "email": "luka.macun@creitive.rs"
+                },
+                {
+                    "name": "Miloš Levačić",
+                    "email": "milos.levacic@creitive.rs"
+                }
+            ],
+            "description": "Simple breadcrumbs class",
+            "homepage": "https://github.com/creitive/breadcrumbs",
+            "keywords": [
+                "breadcrumbs"
+            ],
+            "time": "2015-03-07 19:03:56"
         },
         {
             "name": "danielstjules/stringy",
@@ -2980,7 +3030,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "creitive/breadcrumbs": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
