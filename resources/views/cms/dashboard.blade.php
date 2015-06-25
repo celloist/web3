@@ -1,6 +1,6 @@
-@extends('layout.main')
+@extends('cms.layout.backend')
+@section('title', 'Dashboard')
+@section('fcontent')
 
-@section('content')
-	<h1>Dashboard</h1>
 	<p>Do something</p>
 @endsection

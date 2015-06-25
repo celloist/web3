@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Product;
 
 class Products extends Controller
 {
@@ -16,7 +17,9 @@ class Products extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+
+        return view('cms.products.overview', ['products' => $products]);
     }
 
     /**

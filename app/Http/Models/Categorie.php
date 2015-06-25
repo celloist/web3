@@ -12,6 +12,12 @@ class Categorie extends Model
      * @var string
      */
     protected $table = 'categories';
+    /**
+     * Timestamps used to set the created and lastupdated 
+     *
+     * @var string
+     */
+    public $timestamps = false;
     //
     public function products(){
         return $this->hasMany('Product');
