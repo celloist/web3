@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70700be105a1a4a1dbdc8f0c8d9f5946",
+    "hash": "0072ad820f2c12e76ff3ab1b39351a1f",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -67,56 +67,6 @@
             "time": "2015-05-26 10:57:51"
         },
         {
-            "name": "creitive/breadcrumbs",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/creitive/breadcrumbs.git",
-                "reference": "9737b7b7ad76a51772b738193937584d3938e647"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/creitive/breadcrumbs/zipball/9737b7b7ad76a51772b738193937584d3938e647",
-                "reference": "9737b7b7ad76a51772b738193937584d3938e647",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.4",
-                "symfony/css-selector": "~2.0",
-                "symfony/dom-crawler": "~2.0",
-                "way/laravel-test-helpers": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Creitive\\Breadcrumbs\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT License"
-            ],
-            "authors": [
-                {
-                    "name": "Luka Macun",
-                    "email": "luka.macun@creitive.rs"
-                },
-                {
-                    "name": "Miloš Levačić",
-                    "email": "milos.levacic@creitive.rs"
-                }
-            ],
-            "description": "Simple breadcrumbs class",
-            "homepage": "https://github.com/creitive/breadcrumbs",
-            "keywords": [
-                "breadcrumbs"
-            ],
-            "time": "2015-03-07 19:03:56"
-        },
-        {
             "name": "danielstjules/stringy",
             "version": "1.9.0",
             "source": {
@@ -171,6 +121,55 @@
                 "utils"
             ],
             "time": "2015-02-10 06:19:18"
+        },
+        {
+            "name": "davejamesmiller/laravel-breadcrumbs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davejamesmiller/laravel-breadcrumbs.git",
+                "reference": "03610d6c343293e287a0050820bca0254600381e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davejamesmiller/laravel-breadcrumbs/zipball/03610d6c343293e287a0050820bca0254600381e",
+                "reference": "03610d6c343293e287a0050820bca0254600381e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "illuminate/view": "5.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "3.0.*",
+                "phpunit/phpunit": "4.*",
+                "satooshi/php-coveralls": "0.6.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DaveJamesMiller\\Breadcrumbs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT License"
+            ],
+            "authors": [
+                {
+                    "name": "Dave James Miller",
+                    "email": "dave@davejamesmiller.com",
+                    "homepage": "http://davejamesmiller.com/"
+                }
+            ],
+            "description": "A simple Laravel-style way to create breadcrumbs in Laravel 4+.",
+            "homepage": "http://laravel-breadcrumbs.davejamesmiller.com",
+            "keywords": [
+                "laravel"
+            ],
+            "time": "2015-06-03 12:35:25"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3031,7 +3030,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "creitive/breadcrumbs": 20
+        "davejamesmiller/laravel-breadcrumbs": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

@@ -14,7 +14,7 @@
         <!-- Left Nav Section -->
         <ul class="left">
             @foreach ($menus as $menu)
-                <li><a href="{{$menu->link}}">{{$menu->name}}</a></li>
+                <li><a href="{{url($menu->link)}}">{{$menu->name}}</a></li>
             @endforeach
         </ul>
         </li>
