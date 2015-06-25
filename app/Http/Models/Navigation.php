@@ -5,7 +5,7 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class navigation extends Model
+class Navigation extends Model
 {
     public function scopeAllSorted($query)
     {

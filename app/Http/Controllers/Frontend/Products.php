@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
-use App\Http\Models\Categorie;
+use App\Http\Models\Category;
 
 class Products extends Controller
 {
