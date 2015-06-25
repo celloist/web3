@@ -31,15 +31,16 @@ Route::resource('products/categories', 'Frontend\Products');
 Route::resource('navigation', 'Frontend\Navigation');
 Route::resource('categories', 'Frontend\Categories');
 
-
-
 //CMS routes
-Route::group(['namespace' => 'Cms', 'prefix' => 'beheer', 'as' => 'Cms::'], function (){
+Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
 	Route::get('login', ['uses' => 'Login@index', 'as' => 'cmsLoginGet']);
 	Route::post('login', ['uses' => 'Login@login', 'as' => 'cmsLoginPost']);
 
 	Route::group(['middleware' => 'role:superadmin|cmsadmin,home'], function () {
 		Route::resource('dashboard', 'Dashboard');
+		Route::resource('products', 'Products');
+		Route::resource('categories', 'Categories');
+		Route::resource('navigation', 'Navigation');
 	});
 });
 
