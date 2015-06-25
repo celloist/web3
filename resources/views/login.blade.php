@@ -1,6 +1,17 @@
 @extends('layout.main')
 
 @section('content')
+@if (count($errors) > 0)
+	<div data-alert="" class="alert-box alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        
+    </div>
+@endif
+
 	<h1>Login</h1>
 	<form action="" method="post">
 		<div class="row">
