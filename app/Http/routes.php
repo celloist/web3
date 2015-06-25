@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', ['as' => 'home', function () {
     return view('welcome');
-});
+}]);
 
 
 Route::get('/about', function () {
@@ -28,12 +28,12 @@ Route::get('/contact', function () {
 
 
 //CMS routes
-Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
-	Route::get('login', ['uses' => 'Login@index', 'as' => 'cmsLogin']);
-	Route::post('login', ['uses' => 'Login@login', 'as' => 'cmsLogin']);
+Route::group(['namespace' => 'Cms', 'prefix' => 'beheer', 'as' => 'Cms::'], function (){
+	Route::get('login', ['uses' => 'Login@index', 'as' => 'cmsLoginGet']);
+	Route::post('login', ['uses' => 'Login@login', 'as' => 'cmsLoginPost']);
 
-	Route::group(['middleware' => 'auth:login'], function () {
-		
+	Route::group(['middleware' => 'role:superadmin|cmsadmin,home'], function () {
+		Route::resource('dashboard', 'Dashboard');
 	});
 });
 

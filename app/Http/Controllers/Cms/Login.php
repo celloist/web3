@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Cms;
 
 use Illuminate\Http\Request;
-
+use Validator;
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -26,18 +27,23 @@ class Login extends Controller
      */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|unique:posts|max:255',
+        $requestData = $request->all();
+        $validator = Validator::make($requestData, [
+            'username' => 'required|max:255',
             'password' => 'required',
         ]);
 
 
-        if ($validator->fails()) {
-            return redirect('cmsLogin')->withErrors($validator)
-                                        ->withInput(); 
-        } else {
-            return redirect('dashboard');
+        if (!$validator->fails()) {
+            if (Auth::attempt(['username' => $requestData['username'], 'password' => $requestData['password'], 'active' => 1])) {
+                return redirect('/beheer/dashboard');     
+            } else {
+                $validator->errors()->add('all', 'Combinatie van gebruikersnaam en wachtwoord is onbekend!');
+            }
         }
+
+        return redirect()->route('cmsLoginGet')->withErrors($validator)
+                                        ->withInput();
 
     }
 }

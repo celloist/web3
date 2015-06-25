@@ -32,16 +32,15 @@ class Authenticate
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $route)
+    public function handle($request, Closure $next, $allowedroles, $route)
     {
         if ($this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest($route);
-            }
+            } 
         }
+        
+        return redirect()->route($route);
 
-        return $next($request);
     }
 }

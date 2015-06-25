@@ -23,11 +23,6 @@ class NavigationServiceProvider extends ServiceProvider
         view()->composer(
             'partials.menu', 'App\Http\ViewComposers\MenuComposer'
         );
-
-//        // Using Closure based composers...
-//        view()->composer('dashboard', function ($view) {
-//
-//        });
     }
 
     /**
