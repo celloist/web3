@@ -34,8 +34,9 @@ Breadcrumbs::register('contact', function($breadcrumbs)
 
 
 // Home > Blog > [Category] > [Page]
-Breadcrumbs::register('product', function($breadcrumbs, $page)
+Breadcrumbs::register('products', function($breadcrumbs, $id)
 {
-    $breadcrumbs->parent('categories', $page->category);
-    $breadcrumbs->push($page->title, route('categories{id}', $page->id));
+    $page = \App\Http\Models\Categorie::findOrFail($id);
+    $breadcrumbs->parent('categories');
+    $breadcrumbs->push($page->name, route('products', ['id' =>$page->id]));
 });

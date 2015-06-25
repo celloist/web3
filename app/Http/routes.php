@@ -24,9 +24,10 @@ Route::get('/contact',['as' => 'contact', function () {
 	return View('customerPages.contact');
 }]);
 
-Route::get('categories/{id}', ['as' => 'categories/','uses'=>'Frontend\Products@index']);
+Route::get('categories/{id}', ['as' => 'products','uses'=>'Frontend\Products@index']);
 Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
 Route::get('categories', ['as' => 'categories', 'uses' => 'Frontend\Categories@index']);
+Route::get('ajax/products/{id}','Frontend\Products@ajax');
 
 //CMS routes
 Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){

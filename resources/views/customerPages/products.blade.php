@@ -1,19 +1,18 @@
 @extends('layout.frontend')
-@section('breadcrumbs', Breadcrumbs::render('products'))
 @section('fcontent')
     <div class="row">
         <div class="large-12 columns">
             <div class="row">
 
-                <div class="large-4 small-12 columns">
+                <div id = detail-page class="large-4 small-12 columns">
 
                     <img src="http://placehold.it/500x500&text=Logo">
 
                     <div class="hide-for-small panel">
 
-                        <h3>{{$first->name}}</h3>
-                        <h5 class="subheader">{{$first->detail}}</h5>
-                        <h5>&#8364;{{$first->price}}</h5>
+                        <h3 id="name">{{$first->name}}</h3>
+                        <h5 id="detail" class="subheader">{{$first->detail}}</h5>
+                        <h5 id="price">&#8364;{{$first->price}}</h5>
                     </div>
 
                     <a href="#">
@@ -28,7 +27,8 @@
                 <div class="large-8 columns">
                     <div class="row">
                         @foreach($products as $product)
-                        <div class="large-4 small-6 columns">
+
+                        <div class="large-4 small-6 columns detail" data-id="{{$product->id}}">
                             <img src="http://placehold.it/1000x1000&text=Thumbnail">
 
                             <div class="panel">
@@ -36,6 +36,7 @@
                                 <h6 class="subheader">&#8364;{{$product->price}}</h6>
                             </div>
                         </div>
+
                             @endforeach
                     </div>
                     </div>
@@ -45,6 +46,27 @@
     </div>
 
 @endsection
+@section('scripts')
+    @parent
 <script>
+    $(document).ready(function(){
+        $('.detail').on('click' ,function(){
+            var product = null;
+            var id = $(this).data('id');
+            $.ajax({
+                url: '/ajax/products/'+id,
+                method: "get",
+                dataType: 'json',
+                 success: function(data){
+                     product = data.product;
+                     $('#name').text(product['name']);
+                     $('#detail').text(product['detail']);;
+                     $('#price').text(product['price'])
+                }
+            }
+            );
 
+        });
+    });
 </script>
+    @endsection
