@@ -4,13 +4,18 @@ namespace App\Http\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
+
     use Authenticatable, CanResetPassword;
+    use SoftDeletes;
+    
+    protected $dates = ['deleted_at'];
 
     /**
      * The database table used by the model.
@@ -47,7 +52,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function hasRole (array $roles = array()) {
         if ($this->group != null){
-            return in_array($this->goup["name"], $roles);
+            return in_array($this->group["name"], $roles);
         }
 
         return false;

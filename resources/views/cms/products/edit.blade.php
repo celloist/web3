@@ -64,15 +64,18 @@
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>KLeine afbeelding
-		        {!! Form::file('image_small') !!}
+		        {!! Form::file('small_image_link') !!}
 		      </label>
+
+		      <a href="{{ relative_images_path() . $product->artikelnr }}/{{ $product->small_image_link }}" target="_blank">{{ $product->small_image_link }}</a>
 		    </div>
 		</div>
 
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Grote afbeelding
-		        {!! Form::file('image_large') !!}
+		        {!! Form::file('main_image_link') !!}
+		        <a href="{{ relative_images_path() . $product->artikelnr }}/{{ $product->main_image_link }}" target="_blank">{{ $product->main_image_link }}</a>
 		      </label>
 		    </div>
 		</div>
@@ -80,7 +83,7 @@
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Vat
-		        {!! Form::select('vat', ['low' => 'Laag btw tarief', 'high' => 'Hoog btw tarief'], (Input::old('vat') != null ? Input::old('vat') : $product->vat)) !!}
+		        {!! Form::select('vat', $vat, (Input::old('vat') != null ? Input::old('vat') : $product->vat)) !!}
 		      </label>
 		    </div>
 		</div>

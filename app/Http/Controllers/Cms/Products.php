@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
 use App\Http\Models\Categorie;
 use Validator;
+use Storage;
+use Config;
 
 class Products extends Controller
 {
@@ -31,9 +33,10 @@ class Products extends Controller
      */
     public function create()
     {
+        $vatSettings = $this->getProcessedVat();
         $categories = $this->getProcessedCategories();
         
-        return view('cms.products.create', ['categories' => $categories]);
+        return view('cms.products.create', ['categories' => $categories, 'vat' => $vatSettings]);
     }
 
     /**
@@ -44,18 +47,10 @@ class Products extends Controller
     public function store(Request $request)
     {
         $requestData = $request->all();
+  		$validator = $this->getValidator($requestData);
 
-        $validator = Validator::make($requestData, [
-            'category' => 'required',
-            'name' => 'required|max:20',
-            'artikelnr' => 'required|max:20',
-            'price' => 'required|regex:/^\d*(\.\d{2})?$/',
-            'vat' => 'required',
-            'short_description' => 'required|min:10|max:255',
-            'detail' => 'required|min:20'
-        ]);
-        
         if (!$validator->fails()) {
+
             $product = new Product();
             $product->Categories_id = $requestData['category'];
             $product->name = $requestData['name'];
@@ -64,6 +59,13 @@ class Products extends Controller
             $product->vat = $requestData['vat'];
             $product->short_description = $requestData['short_description'];
             $product->detail = $requestData['detail'];
+            $product->main_image_link = 'main.' . $request->file('main_image_link')->guessExtension();
+            $product->small_image_link = 'small.' . $request->file('small_image_link')->guessExtension();
+          
+            //var_dump(file_get_contents($request->file('main_image_link')->getRealPath()));
+            $basePath = $this->getImageBasePath($product->artikelnr);
+            $request->file('main_image_link')->move($basePath, $product->main_image_link);
+            $request->file('small_image_link')->move($basePath, $product->small_image_link);
 
             if ($product->save()){
                 return redirect()->route('beheer.products.index');
@@ -85,7 +87,10 @@ class Products extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+
+
+        return view('cms.products.delete', ['product' => $product]);
     }
 
     /**
@@ -96,18 +101,7 @@ class Products extends Controller
      */
     public function edit($id)
     {
-        $validator = Validator::make($requestData, [
-            'category' => 'required',
-            'name' => 'required|max:20',
-            'artikelnr' => 'required|max:20',
-            'price' => 'required|regex:/^\d*(\.\d{2})?$/',
-            'vat' => 'required',
-            'short_description' => 'required|min:10|max:255',
-            'image_small' => 'max:10000|mime:jpg,jpeg,png,gif',
-            'image_large' => 'max:10000|mime:jpg,jpeg,png,gif',
-            'detail' => 'required|min:20'
-        ]);
-
+        $vatSettings = $this->getProcessedVat();
         $product = Product::find($id);
 
         if (!$product){
@@ -116,7 +110,7 @@ class Products extends Controller
 
         $categories = $this->getProcessedCategories();
 
-        return view('cms.products.edit', ['product' => $product, 'categories' => $categories]);
+        return view('cms.products.edit', ['product' => $product, 'categories' => $categories, 'vat' => $vatSettings]);
     }
 
     /**
@@ -125,11 +119,10 @@ class Products extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update($id, Request $request)
     {
         $requestData = $request->all();
-        $validator = $this->validator($requestData);
-
+        $validator = $this->getValidator($requestData, false);
 
         if (!$validator->fails()) {
             $product = Product::find($id);
@@ -144,6 +137,17 @@ class Products extends Controller
             $product->vat = $requestData['vat'];
             $product->short_description = $requestData['short_description'];
             $product->detail = $requestData['detail'];
+
+            $basePath = $this->getImageBasePath($product->artikelnr);
+            if ($request->hasFile('main_image_link')) {
+            	$oldname = $product->main_image_link;
+            	$this->replaceImage($basePath, $oldname, $request->file('main_image_link'), ($product->main_image_link = 'main.' . $request->file('main_image_link')->guessExtension()));
+            }
+
+            if ($request->hasFile('small_image_link')) {
+            	$oldname = $product->small_image_link;
+            	$this->replaceImage($basePath, $oldname, $request->file('small_image_link'), ($product->main_image_link = 'small.' . $request->file('small_image_link')->guessExtension()));
+            }
 
             if ($product->save()){
                 return redirect()->route('beheer.products.index');
@@ -166,7 +170,10 @@ class Products extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (($product = Product::find($id))) {
+            $product->delete();
+        }
+        return redirect()->route('beheer.products.index');
     }
     /**
      * Get all the current categories and return them in an [id=>name] format
@@ -181,5 +188,55 @@ class Products extends Controller
         }
 
         return $parsedCategories;
+    }
+    /**
+     * [getProcessedVat description]
+     * @return [type] [description]
+     */
+    private function getProcessedVat() {
+        $vat = Config::get('static_values.vat');
+        $return = [];
+        foreach ($vat as $key => $values) {
+           $return[$key] = $values['title'];
+        }
+
+        return $return;
+    }
+    /**
+     * [getValidator description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    private function getValidator (array $requestData, $requireImages = true) {
+    	$rules = [
+            'category' => 'required',
+            'name' => 'required|max:20',
+            'artikelnr' => 'required|max:20',
+            'price' => 'required|regex:/^\d*(\.\d{2})?$/',
+            'vat' => 'required',
+            'short_description' => 'required|min:10|max:255',
+            'main_image_link' => 'max:10000|mimes:jpg,jpeg,png,gif',
+            'small_image_link' => 'max:10000|mimes:jpg,jpeg,png,gif',
+            'detail' => 'required|min:20'
+        ];
+
+        if ($requireImages) {
+        	$rules['main_image_link'] = 'required|' . $rules['main_image_link'];
+        	$rules['small_image_link'] = 'required|' . $rules['small_image_link'];
+        }
+
+    	return Validator::make($requestData, $rules);
+    }
+    /**
+     * [getImageBasePath description]
+     * @return [type] [description]
+     */
+    private function getImageBasePath ($artikelnr) {
+    	return public_path() . '/images/products/'. $artikelnr . '/';
+    }
+
+    private function replaceImage ($basePath, $oldFile, $file, $newFile) {
+    	unlink($basePath . $oldFile);
+    	$file->move($basePath, $newFile);
     }
 }

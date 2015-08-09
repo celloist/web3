@@ -39,6 +39,7 @@ Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
 		Route::resource('products', 'Products');
 		Route::resource('categories', 'Categories');
 		Route::resource('navigation', 'Navigation');
+		Route::resource('users', 'Users');
 	});
 });
 

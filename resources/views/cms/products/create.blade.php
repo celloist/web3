@@ -12,7 +12,7 @@
 	    </div>
 	@endif
 
-	{!! Form::open(['route' => ['beheer.products.store'], 'method' => 'post']) !!}
+	{!! Form::open(['route' => ['beheer.products.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Categorie
@@ -56,7 +56,23 @@
 		<div class="row">
 		    <div class="large-12 columns">
 		      	<label>Lange beschrijving
-					{!! Form::textarea('detail',Input::old('detail')) !!}
+					{!! Form::textarea('detail', Input::old('detail')) !!}
+				</label>
+			</div>
+		</div>
+
+		<div class="row">
+		    <div class="large-12 columns">
+		      	<label>Kleine afbeelding
+					{!! Form::file('small_image_link') !!}
+				</label>
+			</div>
+		</div>
+
+		<div class="row">
+		    <div class="large-12 columns">
+		      	<label>Grote afbeelding
+					{!! Form::file('main_image_link') !!}
 				</label>
 			</div>
 		</div>
@@ -64,7 +80,7 @@
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Vat
-		        {!! Form::select('vat', ['low' => 'Laag btw tarief', 'high' => 'Hoog btw tarief']) !!}
+		        {!! Form::select('vat', $vat) !!}
 		      </label>
 		    </div>
 		</div>		

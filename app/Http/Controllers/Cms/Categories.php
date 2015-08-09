@@ -69,7 +69,9 @@ class Categories extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Categorie::find($id);
+
+        return view('cms.categories.delete', ['category' => $category]);
     }
 
     /**
@@ -131,7 +133,11 @@ class Categories extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (($category = Categorie::find($id))) {
+            $category->delete();
+        }
+
+        return redirect()->route('beheer.categories.index');
     }
 
     private function validator ($requestData) {

@@ -148,6 +148,7 @@ return [
 
         App\Providers\NavigationServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        App\Providers\HelpersServiceProvider::class
 
     ],
 
