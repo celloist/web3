@@ -1,4 +1,13 @@
 <div class="sticky">
+    <div class="row">
+   <div class="small-2 large-4 columns"> <h1 style="color: #ffcc00">Goldenfingers</h1></div>
+   <div class="large-3 columns">
+       <a href="#">
+           <div class="panel callout radius">
+               <h6>0 items in your cart</h6>
+           </div>
+       </a></div>
+    </div>
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
@@ -9,7 +18,7 @@
     </ul>
 
     <section class="top-bar-section">
-        <!-- Right Nav Section -->
+
 
         <!-- Left Nav Section -->
         <ul class="left">
@@ -19,8 +28,10 @@
         </ul>
         </li>
         </ul>
-
+        <!-- Right Nav Section -->
         <ul class="right">
+            <li><a href="#">Log in</a></li>
+            <li><a href="#">0 items in your cart</a></li>
             <li class="has-form">
                 <div class="row collapse">
                     <div class="large-8 small-9 columns">
@@ -31,6 +42,7 @@
                     </div>
                 </div>
             </li>
+
 
         </ul>
 
