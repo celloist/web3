@@ -41,9 +41,7 @@ class Categories extends Controller
     public function store(Request $request)
     {
         $requestData = $request->all();
-        $validator = Validator::make($requestData, [
-            'name' => 'required|max:20',
-        ]);
+        $validator = $this->validator($requestData);
 
 
         if (!$validator->fails()) {
@@ -71,7 +69,9 @@ class Categories extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Categorie::find($id);
+
+        return view('cms.categories.delete', ['category' => $category]);
     }
 
     /**
@@ -82,7 +82,14 @@ class Categories extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Categorie::find($id);
+
+        if (!$category){
+            throw new Exception("Category not foundx!");
+        }
+
+
+        return view('cms.categories.edit', ['category' => $category]);
     }
 
     /**
@@ -91,9 +98,31 @@ class Categories extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update($id, Request $request)
     {
-        //
+        $requestData = $request->all();
+        $validator = $this->validator($requestData);
+
+
+        if (!$validator->fails()) {
+            $categorie = Categorie::find($id);
+            if (!$categorie) {
+                throw new Exception("Category not found!");
+            } 
+
+            $categorie->name = $requestData['name'];
+
+            if ($categorie->save()){
+                return redirect()->route('beheer.categories.index');
+            } else {
+                $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
+            }
+
+        }
+
+        return redirect()->route('beheer.categories.edit', ['id' => $id])
+                ->withErrors($validator)
+                ->withInput();
     }
 
     /**
@@ -104,6 +133,16 @@ class Categories extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (($category = Categorie::find($id))) {
+            $category->delete();
+        }
+
+        return redirect()->route('beheer.categories.index');
+    }
+
+    private function validator ($requestData) {
+        return Validator::make($requestData, [
+            'name' => 'required|max:20',
+        ]);
     }
 }

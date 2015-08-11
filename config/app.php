@@ -137,6 +137,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        Collective\Html\HtmlServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -146,6 +148,7 @@ return [
 
         App\Providers\NavigationServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        App\Providers\HelpersServiceProvider::class
 
     ],
 
@@ -195,6 +198,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
+        'Form' => Collective\Html\FormFacade::class,
 
     ],
 

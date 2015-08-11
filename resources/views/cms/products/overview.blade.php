@@ -1,6 +1,7 @@
 @extends('cms.layout.backend')
 @section('title', 'Products')
 @section('fcontent')
+	<a href="{{ URL::Route('beheer.products.create') }}" class="button success">Nieuw product</a>
 	<table>
 		<thead>
 			<tr>

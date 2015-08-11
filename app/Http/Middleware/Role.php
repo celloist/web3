@@ -15,8 +15,9 @@ class Role
      */
     public function handle($request, Closure $next, $roles, $route)
     {
-        if (!$request->user()->hasRole(explode('|', $roles))) {
-            redirect()->route($route);
+        var_dump($request->user() != null);
+        if ($request->user() == null || !$request->user()->hasRole(explode('|', $roles))) {
+            return redirect()->route($route);
         }
 
         return $next($request);

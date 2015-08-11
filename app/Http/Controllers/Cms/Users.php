@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Models\User;
+use App\Http\Models\Group;
+use Validator;
 
 class Users extends Controller
 {
@@ -16,7 +19,9 @@ class Users extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+
+        return view('cms.users.overview', ['users' => $users]);
     }
 
     /**
@@ -26,7 +31,8 @@ class Users extends Controller
      */
     public function create()
     {
-        //
+        $groups = $this->getProcessedGroups();
+        return view('cms.users.create', ['groups' => $groups]);
     }
 
     /**
@@ -34,9 +40,9 @@ class Users extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        return $this->saveUser(new User(), $request);
     }
 
     /**
@@ -47,7 +53,8 @@ class Users extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('cms.users.delete', ['user' => $user]);
     }
 
     /**
@@ -58,7 +65,10 @@ class Users extends Controller
      */
     public function edit($id)
     {
-        //
+        $groups = $this->getProcessedGroups();
+        $user = User::find($id);
+
+        return view('cms.users.edit', ['groups' => $groups, 'user' => $user]);
     }
 
     /**
@@ -67,9 +77,11 @@ class Users extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update($id, Request $request)
     {
-        //
+        $user = User::find($id);
+
+        return $this->saveUser($user, $request, $id);
     }
 
     /**
@@ -80,6 +92,62 @@ class Users extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (($user = User::find($id))) {
+            $user->delete();
+        }
+
+        return redirect()->route('beheer.users.index');
+    }
+
+    private function saveUser (User $user, Request $request, $id = 0) {
+        $rules = [
+            'username' => 'required|unique:users,username,'. $id,
+            'password' => 'required|min:4|max:24|confirmed',
+            'group_id' => 'required',
+            'active'   => 'required',
+            'name'     => 'required|min:2',
+            'lastname' => 'required|min:2',
+            'country'   => 'required|min:4',
+            'city'   => 'required|min:4',
+            'address'   => 'required|min:4',
+            'zip'       => 'required|min:4',
+        ];
+
+        $requestData = $request->all();
+        $validator = Validator::make($requestData, $rules);
+        if (!$validator->fails()) {
+            $user->username = $requestData['username'];
+            $user->password = bcrypt($requestData['password']);
+            $user->group_id = $requestData['group_id'];
+            $user->active   = $requestData['active'];
+            $user->name     = $requestData['name'];
+            $user->lastname     = $requestData['lastname'];
+            $user->country     = $requestData['country'];
+            $user->city     = $requestData['city'];
+            $user->address     = $requestData['address'];
+            $user->zip     = $requestData['zip'];
+
+            if ($user->save()){
+                return redirect()->route('beheer.users.index');
+            } else {
+                $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
+            }
+        }
+
+        return redirect()->route('beheer.users.create')
+                ->withErrors($validator)
+                ->withInput();
+    }
+
+    private function getProcessedGroups () {
+        $groups = Group::all();
+
+        $return =[];
+
+        foreach ($groups as $group) {
+            $return[$group->id] = $group->description;
+        }
+
+        return $return;
     }
 }

@@ -11,8 +11,7 @@
 	        
 	    </div>
 	@endif
-
-	{!! Form::open(['route' => ['beheer.categories.store'], 'method' => 'post']) !!}
+	{!! Form::model($category, ['route' => ['beheer.categories.update', $category->id], 'method' => 'put']) !!}
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Naam
