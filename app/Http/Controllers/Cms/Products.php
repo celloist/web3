@@ -122,7 +122,7 @@ class Products extends Controller
     public function update($id, Request $request)
     {
         $requestData = $request->all();
-        $validator = $this->getValidator($requestData, false);
+        $validator = $this->getValidator($requestData, false, $id);
 
         if (!$validator->fails()) {
             $product = Product::find($id);
@@ -207,11 +207,11 @@ class Products extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    private function getValidator (array $requestData, $requireImages = true) {
+    private function getValidator (array $requestData, $requireImages = true, $id = 0) {
     	$rules = [
             'category' => 'required',
             'name' => 'required|max:20',
-            'artikelnr' => 'required|max:20',
+            'artikelnr' => 'required|max:20|unique:products,artikelnr,'. $id,
             'price' => 'required|regex:/^\d*(\.\d{2})?$/',
             'vat' => 'required',
             'short_description' => 'required|min:10|max:255',

@@ -31,11 +31,13 @@ Route::get('ajax/products/{id}','Frontend\Products@ajax');
 
 //CMS routes
 Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
+	Route::get('/', ['uses' => 'Login@index', 'as' => 'cmsLoginGet']);
 	Route::get('login', ['uses' => 'Login@index', 'as' => 'cmsLoginGet']);
 	Route::post('login', ['uses' => 'Login@login', 'as' => 'cmsLoginPost']);
 
 	Route::group(['middleware' => 'role:superadmin|cmsadmin,home'], function () {
 		Route::resource('dashboard', 'Dashboard');
+		Route::resource('orders', 'Orders');
 		Route::resource('products', 'Products');
 		Route::resource('categories', 'Categories');
 		Route::resource('navigation', 'Navigation');
