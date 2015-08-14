@@ -30,10 +30,11 @@
 
                         <div class="large-4 small-6 columns detail" data-id="{{$product->id}}">
                             <img src="http://placehold.it/1000x1000&text=Thumbnail">
-
                             <div class="panel">
+
                                 <h5>{{$product->name}}</h5>
                                 <h6 class="subheader">&#8364;{{$product->price}}</h6>
+                                <h6>  <i class="fi-shopping-cart small"></i></h6>
                             </div>
                         </div>
 
