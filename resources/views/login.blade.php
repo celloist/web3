@@ -13,7 +13,7 @@
 @endif
 
 	<h1>Login</h1>
-	<form action="" method="post">
+	{!! Form::open(['route' => ['cmsLoginPost'], 'method' => 'post']) !!}
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Username
@@ -35,6 +35,5 @@
 				<button type="submit" role="button" aria-label="submit form" class="button">Submit</button>
 			</div>
 		</div>
-		<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	</form>
+	{!! Form::close() !!}
 @endsection

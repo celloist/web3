@@ -7,8 +7,9 @@
             <nav>
                 <ul>
                     <li><a href="{{ URL::route('beheer.dashboard.index') }}">Dashboard</a></li>
-                    <li><a href="{{ URL::route('beheer.categories.index') }}">Categories</a></li>
+                    <li><a href="{{ URL::route('beheer.orders.index') }}">Orders</a></li>
                     <li><a href="{{ URL::route('beheer.products.index') }}">Products</a></li>
+                    <li><a href="{{ URL::route('beheer.categories.index') }}">Categories</a></li>
                     <li><a href="{{ URL::route('beheer.users.index') }}">Gebruikers</a></li>
                 </ul>
             </nav>
