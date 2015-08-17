@@ -97,8 +97,14 @@ class Products extends Controller
     {
 
         $shoppingcart = $request->session()->get('products');
+        $state = 'Shoppingcart';
+        if($shoppingcart == null)
+        {
+            $shoppingcart = array();
+            $state = 'Shoppingcart is empty';
+        }
 
-        return view('customerPages.shoppingcart')->with('shoppingcart',$shoppingcart);
+        return view('customerPages.shoppingcart')->with('shoppingcart',$shoppingcart)->with('state',$state);
     }
 
     public function removeItem(Request $request,$id)
@@ -107,24 +113,29 @@ class Products extends Controller
         $newCart = array();
         $products = $request->session()->get('products');
 
-        foreach($products as $p)
-        {
+        foreach ($products as $p) {
             if ($p['id'] == $product['id'])
             {
-                if($p['quantity'])
-                {
-                    --$p['quantity'];
-                }
-                if($p['quantity']> 0)
-                {
-                    array_push($newCart,$p);
-                }
+                $p['quantity'] = $p['quantity']-1;
             }
+
+            if ($p['quantity'] > 0)
+            {
+                array_push($newCart, $p);
+            }
+        }
+
+        $pCount = $request->session()->get('pCount');
+        if($pCount >0)
+        {
+            $pCount = $pCount-1;
+            $request->session()->put('pCount',$pCount);
         }
 
         $request->session()->put('products',$newCart);
 
-        return response()->json(['succes'=>'succes']);
+
+        return response()->json(['products'=>$newCart,'pCount'=>$pCount]);
     }
 
 

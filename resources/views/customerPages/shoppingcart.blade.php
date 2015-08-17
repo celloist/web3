@@ -14,7 +14,7 @@
                     </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody class="tb-cart">
                     @foreach($shoppingcart as $item)
                     <tr>
                         <td class="td-quantity">Quantity {{$item->quantity}}</td>
@@ -23,6 +23,7 @@
                         <td><a class="th" href="#"><img src="{{$item->small_image_link}}"></a></td>
                     </tr>
                         @endforeach
+                    <h2>{{$state}}</h2>
                     </tbody>
                 </table>
                 </div>
@@ -36,16 +37,28 @@
     @parent
     <script>
         $(document).ready(function(){
-            $('.remove-item').on('click' ,function(){
-                var pCount = 0;
+            $('.tb-cart').on('click','i.remove-item' ,function(){
                 var id = $(this).data('id');
+                console.log('test');
                 $.ajax({
                             url: '/ajax/removeitem/'+id,
                             method: "get",
                             dataType: 'json',
                             success: function(data) {
-                                $('.li-cart').text(""+(pCount - 1) + " items in your cart");
-                                location.reload();
+                                $('.li-cart').text(""+data.pCount+ " items in your cart");
+                                $('.tb-cart').html("");
+                                var products = data.products;
+                                for(var i=0;i<products.length;i++)
+                                {
+                                    $('.tb-cart').html( $('.tb-cart').html() + ' <tr>'
+                                        +'<td class="td-quantity">Quantity '+products[i].quantity+'</td>'
+                                        +'<td>'+products[i].name+'</td>'
+                                        +'<td><a href="#"><i class="fi-x remove-item" data-id="'+products[i].id+'"></i></a></td>'
+                                        +'<td><a class="th" href="#"><img src="'+products[i].small_image_link+'"></a></td>'
+                                        +'</tr>')
+                                }
+                                console.log('test');
+
                             }
                         }
                 );
