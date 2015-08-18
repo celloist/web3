@@ -74,7 +74,7 @@
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Land
-		        {!! Form::text('country') !!}
+		        {!! Form::select('country', $countries) !!}
 		      </label>
 		    </div>
 		</div>

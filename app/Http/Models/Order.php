@@ -25,6 +25,6 @@ class Order extends Model
      * 
      */
     public function scopeWithTotal ($query) {
-        return $query->select('orders.*', DB::raw('DATE_FORMAT(orders.created_at, "%d/%c/%Y %H:%i") AS formatted_create_date'),DB::raw('DATE_FORMAT(orders.deliver_date, "%d/%c/%Y") AS formatted_deliver_date'), DB::raw('(SELECT SUM(orderrows.quantity * price) FROM orderrows WHERE orderrows.Orders_id = orders.id) AS total'));
+        return $query->select('orders.*', DB::raw('DATE_FORMAT(orders.created_at, "%d/%m/%Y %H:%i") AS formatted_create_date'),DB::raw('DATE_FORMAT(orders.deliver_date, "%d/%m/%Y") AS formatted_deliver_date'), DB::raw('(SELECT SUM(orderrows.quantity * price) FROM orderrows WHERE orderrows.Orders_id = orders.id) AS total'));
     }
 }

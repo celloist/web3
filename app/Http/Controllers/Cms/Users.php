@@ -8,10 +8,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\User;
 use App\Http\Models\Group;
+use App\Http\Traits\ReturnAssoc;
 use Validator;
 
 class Users extends Controller
 {
+    use ReturnAssoc;
     /**
      * Display a listing of the resource.
      *
@@ -32,7 +34,9 @@ class Users extends Controller
     public function create()
     {
         $groups = $this->getProcessedGroups();
-        return view('cms.users.create', ['groups' => $groups]);
+        $countries = $this->getProcessedCountries();
+
+        return view('cms.users.create', ['groups' => $groups, 'countries' => $countries]);
     }
 
     /**
@@ -149,5 +153,15 @@ class Users extends Controller
         }
 
         return $return;
+    }
+
+    /**
+     * [getProcessedVat description]
+     * @return [type] [description]
+     */
+    private function getProcessedCountries() {
+        $countries = Config::get('static_values.countries');
+
+        return $this->getAssocValues($countries);
     }
 }
