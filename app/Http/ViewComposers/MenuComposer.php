@@ -9,6 +9,8 @@ namespace App\Http\ViewComposers;
 
 use App\Http\Models\Navigation;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use App\Http\Requests;
 
 class MenuComposer {
 
@@ -27,7 +29,16 @@ class MenuComposer {
     {
         $menus = Navigation::allSorted()->get();
 
-        $view->with('menus', $menus);
+        if(session('pCount')==null)
+        {
+            $pCount = 0;
+        }
+        else
+        {
+            $pCount = session('pCount');
+        }
+
+        $view->with('menus', $menus)->with('pCount',$pCount);
     }
 
 }
