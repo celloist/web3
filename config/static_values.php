@@ -20,4 +20,35 @@ return [
             'title' => 'Hoog tarief (21%)'
         ]
     ],
+    'order_status' => [
+        'placed' => [
+            'title' => 'Order is bevestiged'
+        ],
+        'payed' => [
+            'title' => 'Order is betaald'
+        ],
+        'fetching' => [
+            'title' => 'Order aan het verzamelen'
+        ],
+        'sent' => [
+            'title' => 'Order is verzonden'
+        ],
+        'deliverd' => [
+            'title' => 'Order is afgeleverd'
+        ],
+        'return' => [
+            'title' => 'Order is retour gekomen'
+        ]
+    ],
+    'countries' => [
+        'NL' => [
+            'title' => 'Nederland',
+        ],
+        'BE' => [
+            'title' => 'Belgie',
+        ],
+        'DE' => [
+            'title' => 'Duitsland'
+        ]
+    ]
 ];

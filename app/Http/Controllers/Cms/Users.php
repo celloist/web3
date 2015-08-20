@@ -8,10 +8,13 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\User;
 use App\Http\Models\Group;
+use App\Http\Traits\ReturnAssoc;
 use Validator;
+use Config;
 
 class Users extends Controller
 {
+    use ReturnAssoc;
     /**
      * Display a listing of the resource.
      *
@@ -32,7 +35,9 @@ class Users extends Controller
     public function create()
     {
         $groups = $this->getProcessedGroups();
-        return view('cms.users.create', ['groups' => $groups]);
+        $countries = $this->getProcessedCountries();
+
+        return view('cms.users.create', ['groups' => $groups, 'countries' => $countries]);
     }
 
     /**
@@ -42,7 +47,32 @@ class Users extends Controller
      */
     public function store(Request $request)
     {
-        return $this->saveUser(new User(), $request);
+        $requestData = $request->all();
+        $validator = $this->getValidator($requestData);
+        if (!$validator->fails()) {
+            $user = new User();
+            $user->username = $requestData['username'];
+            $user->password = bcrypt($requestData['password']);
+            $user->group_id = $requestData['group_id'];
+            $user->active   = $requestData['active'];
+            $user->name     = $requestData['name'];
+            $user->lastname     = $requestData['lastname'];
+            $user->country     = $requestData['country'];
+            $user->city     = $requestData['city'];
+            $user->address     = $requestData['address'];
+            $user->zip     = $requestData['zip'];
+            $user->email     = $requestData['email'];
+
+            if ($user->save()){
+                return redirect()->route('beheer.users.index');
+            } else {
+                $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
+            }
+        }
+
+        return redirect()->route('beheer.users.create')
+                ->withErrors($validator)
+                ->withInput();
     }
 
     /**
@@ -66,9 +96,10 @@ class Users extends Controller
     public function edit($id)
     {
         $groups = $this->getProcessedGroups();
+        $countries = $this->getProcessedCountries();
         $user = User::find($id);
 
-        return view('cms.users.edit', ['groups' => $groups, 'user' => $user]);
+        return view('cms.users.edit', ['groups' => $groups, 'user' => $user, 'countries' => $countries]);
     }
 
     /**
@@ -81,7 +112,33 @@ class Users extends Controller
     {
         $user = User::find($id);
 
-        return $this->saveUser($user, $request, $id);
+        $requestData = $request->all();
+        $validator = $this->getValidator($requestData, $id);
+        if (!$validator->fails()) {
+            $user->username = $requestData['username'];
+            if (!empty($requestData['password'])) {
+                $user->password = bcrypt($requestData['password']);
+            }
+            $user->group_id = $requestData['group_id'];
+            $user->active   = $requestData['active'];
+            $user->name     = $requestData['name'];
+            $user->lastname     = $requestData['lastname'];
+            $user->country     = $requestData['country'];
+            $user->city     = $requestData['city'];
+            $user->address     = $requestData['address'];
+            $user->zip     = $requestData['zip'];
+            $user->email     = $requestData['email'];
+
+            if ($user->save()){
+                return redirect()->route('beheer.users.index');
+            } else {
+                $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
+            }
+        }
+
+        return redirect()->route('beheer.users.edit', [$id])
+                ->withErrors($validator)
+                ->withInput();
     }
 
     /**
@@ -99,44 +156,26 @@ class Users extends Controller
         return redirect()->route('beheer.users.index');
     }
 
-    private function saveUser (User $user, Request $request, $id = 0) {
+    private function getValidator (array $requestData, $id = 0) {
         $rules = [
             'username' => 'required|unique:users,username,'. $id,
-            'password' => 'required|min:4|max:24|confirmed',
+            'password' => 'min:4|max:24|confirmed',
             'group_id' => 'required',
             'active'   => 'required',
             'name'     => 'required|min:2',
             'lastname' => 'required|min:2',
-            'country'   => 'required|min:4',
+            'country'   => 'required',
             'city'   => 'required|min:4',
             'address'   => 'required|min:4',
             'zip'       => 'required|min:4',
+            'email'     => 'required|email'
         ];
 
-        $requestData = $request->all();
-        $validator = Validator::make($requestData, $rules);
-        if (!$validator->fails()) {
-            $user->username = $requestData['username'];
-            $user->password = bcrypt($requestData['password']);
-            $user->group_id = $requestData['group_id'];
-            $user->active   = $requestData['active'];
-            $user->name     = $requestData['name'];
-            $user->lastname     = $requestData['lastname'];
-            $user->country     = $requestData['country'];
-            $user->city     = $requestData['city'];
-            $user->address     = $requestData['address'];
-            $user->zip     = $requestData['zip'];
-
-            if ($user->save()){
-                return redirect()->route('beheer.users.index');
-            } else {
-                $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
-            }
+        if ($id == 0) {
+            $rules['password'] = 'required|' . $rules['password'];
         }
 
-        return redirect()->route('beheer.users.create')
-                ->withErrors($validator)
-                ->withInput();
+        return Validator::make($requestData, $rules);   
     }
 
     private function getProcessedGroups () {
@@ -149,5 +188,15 @@ class Users extends Controller
         }
 
         return $return;
+    }
+
+    /**
+     * [getProcessedVat description]
+     * @return [type] [description]
+     */
+    private function getProcessedCountries() {
+        $countries = Config::get('static_values.countries');
+
+        return $this->getAssocValues($countries);
     }
 }

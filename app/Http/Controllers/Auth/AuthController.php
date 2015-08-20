@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Group;
+use App\Http\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Config;
 
 class AuthController extends Controller
 {
@@ -22,6 +24,8 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers;
 
+    protected $redirectPath = '/';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -30,6 +34,12 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+    }
+
+    public function getRegister () {
+        $countries = Config::get('static_values.countries');
+
+        return view('auth.register', ['countries' => $countries]);
     }
 
     /**
@@ -41,9 +51,15 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'username' => 'required|min:4|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
+            'name' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'email' => 'required|max:255|email',
+            'country' => 'required',
+            'city' => 'required|max:255:min:2',
+            'address' => 'required|max:255:min:3',
+            'zip' => 'required|max:8:min:4',
         ]);
     }
 
@@ -55,10 +71,16 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $group =  Group::name('user')->first();
+
+        if (!$group) {
+            throw new Exception("Something went wrong!");
+        }
+
+        $data['group_id'] = $group['id'];
+        $data['password'] = bcrypt($data['password']);
+
+        
+        return User::create($data);
     }
 }

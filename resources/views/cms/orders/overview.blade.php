@@ -8,7 +8,8 @@
 				<th>Totaal prijs</th>
 				<th>Geplaatst op</th>
 				<th>Leveren op</th>
-				<th>Door</th>
+				<th>Status</th>
+				<th>Klant</th>
 			</tr>
 		</thead>
 
@@ -22,6 +23,7 @@
 					<td>&euro; {{ number_format($order->total, 2, ',', '.') }}</td>
 					<td>{{ $order->formatted_create_date }}</td>
 					<td>{{ $order->formatted_deliver_date }}</td>
+					<td>{{ $orderStates[$order->status] }}</td>
 					<td>{{ $order->user->name . ' ' . $order->user->last_name }}</td>
 				</tr>
 			@endforeach

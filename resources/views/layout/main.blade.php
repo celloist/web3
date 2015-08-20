@@ -3,9 +3,11 @@
     <head>
 
         <title>Goldenfingers - @yield("title", "Default")</title>
-        <link rel="stylesheet" href="/css/foundation.min.css" />
-        <link rel="stylesheet" href="/css/main.css" />
-        <link rel="stylesheet" href="/css/foundation-icons.css" />
+        @section("styles")
+            <link rel="stylesheet" href="/css/foundation.min.css" />
+            <link rel="stylesheet" href="/css/main.css" />
+            <link rel="stylesheet" href="/css/foundation-icons.css" />
+        @show
         <script src="/js/vendor/modernizr.js"></script>
     </head>
 

@@ -74,7 +74,7 @@
 		<div class="row">
 		    <div class="large-12 columns">
 		      <label>Land
-		        {!! Form::text('country') !!}
+		        {!! Form::select('country', $countries) !!}
 		      </label>
 		    </div>
 		</div>
@@ -99,6 +99,14 @@
 		    <div class="large-12 columns">
 		      <label>Postcode
 		        {!! Form::text('zip') !!}
+		      </label>
+		    </div>
+		</div>		
+
+		<div class="row">
+		    <div class="large-12 columns">
+		      <label>Email
+		        {!! Form::text('email') !!}
 		      </label>
 		    </div>
 		</div>		

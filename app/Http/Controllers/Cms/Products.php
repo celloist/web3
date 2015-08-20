@@ -8,12 +8,14 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
 use App\Http\Models\Categorie;
+use App\Http\Traits\ReturnAssoc;
 use Validator;
 use Storage;
 use Config;
 
 class Products extends Controller
 {
+    use ReturnAssoc;
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +38,10 @@ class Products extends Controller
         $vatSettings = $this->getProcessedVat();
         $categories = $this->getProcessedCategories();
         
-        return view('cms.products.create', ['categories' => $categories, 'vat' => $vatSettings]);
+        return view('cms.products.create', [
+            'categories' => $categories, 
+            'vat' => $vatSettings,
+        ]);
     }
 
     /**
@@ -110,7 +115,11 @@ class Products extends Controller
 
         $categories = $this->getProcessedCategories();
 
-        return view('cms.products.edit', ['product' => $product, 'categories' => $categories, 'vat' => $vatSettings]);
+        return view('cms.products.edit', [
+            'product' => $product, 
+            'categories' => $categories, 
+            'vat' => $vatSettings,
+        ]);
     }
 
     /**
@@ -195,12 +204,8 @@ class Products extends Controller
      */
     private function getProcessedVat() {
         $vat = Config::get('static_values.vat');
-        $return = [];
-        foreach ($vat as $key => $values) {
-           $return[$key] = $values['title'];
-        }
 
-        return $return;
+        return $this->getAssocValues($vat);
     }
     /**
      * [getValidator description]
