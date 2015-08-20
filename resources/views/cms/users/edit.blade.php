@@ -1,5 +1,5 @@
 @extends('cms.layout.backend')
-@section('title', 'Bewerk product')
+@section('title', 'Bewerk gebruiker: '. $user->username )
 @section('fcontent')
 	@if (count($errors) > 0)
 		<div data-alert="" class="alert-box alert">
@@ -99,6 +99,14 @@
 		    <div class="large-12 columns">
 		      <label>Postcode
 		        {!! Form::text('zip') !!}
+		      </label>
+		    </div>
+		</div>
+
+		<div class="row">
+		    <div class="large-12 columns">
+		      <label>Email
+		        {!! Form::text('email') !!}
 		      </label>
 		    </div>
 		</div>		

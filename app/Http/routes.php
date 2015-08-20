@@ -24,11 +24,18 @@ Route::get('/contact',['as' => 'contact', function () {
 	return View('customerPages.contact');
 }]);
 
+Route::get('/logout', function () {
+	Auth::logout();
+
+	return redirect('/');
+});
 
 Route::get('categories/{id}', ['as' => 'products','uses'=>'Frontend\Products@index']);
 Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
 Route::get('categories', ['as' => 'categories', 'uses' => 'Frontend\Categories@index']);
 Route::get('shoppingcart', ['as' => 'shoppingcart', 'uses' => 'Frontend\Products@shoppingcart']);
+Route::get('register', ['as' => 'registerGet', 'uses' => 'Auth\AuthController@getRegister']);
+Route::post('register', 'Auth\AuthController@postRegister');
 
 
 
