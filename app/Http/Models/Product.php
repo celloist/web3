@@ -12,7 +12,7 @@ class Product extends Model
 	
 	protected $dates = ['deleted_at'];
 
-    public function categories(){
-        return $this->hasOne('Categorie');
+    public function categories (){
+        return $this->hasOne('App\Http\Models\Categorie', 'id', 'Categories_id');
     }
 }

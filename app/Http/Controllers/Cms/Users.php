@@ -22,7 +22,7 @@ class Users extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('group')->get();
 
         return view('cms.users.overview', ['users' => $users]);
     }

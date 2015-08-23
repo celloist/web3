@@ -15,8 +15,12 @@ class Login extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->user() !== null) {
+            return redirect()->route('beheer.dashboard.index');
+        }
+
         return view("login");
     }
 
@@ -36,7 +40,7 @@ class Login extends Controller
 
         if (!$validator->fails()) {
             if (Auth::attempt(['username' => $requestData['username'], 'password' => $requestData['password'], 'active' => 1])) {
-                return redirect('/beheer/dashboard');     
+                return redirect()->route('beheer.dashboard.index');     
             } else {
                 $validator->errors()->add('all', 'Combinatie van gebruikersnaam en wachtwoord is onbekend!');
             }

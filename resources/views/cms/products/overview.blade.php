@@ -7,6 +7,9 @@
 			<tr>
 				<th>Acties</th>
 				<th>Naam</th>
+				<th>Artikelnr.</th>
+				<th>Price</th>
+				<th>Categorie</th>
 			</tr>
 		</thead>
 
@@ -18,6 +21,9 @@
 						<a href="{{ URL::Route('beheer.products.destroy', ['id' => $product->id]) }}" class="button tiny alert">Verwijder</a>
 					</td>
 					<td>{{ $product->name }}</td>
+					<td>{{ $product->artikelnr }}</td>
+					<td>&euro; {{ number_format($product->price, 2, ',', '.') }}</td>
+					<td>{{ $product->categories->name }}</td>
 				</tr>
 			@endforeach
 		</tbody>
