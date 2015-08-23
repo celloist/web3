@@ -134,8 +134,16 @@ class Products extends Controller
 
         $request->session()->put('products',$newCart);
 
+        if(count($newCart)<1)
+        {
+            $state = 'Shoppingcart is empty';
+        }
+        else
+        {
+            $state = 'Shoppingcart';
+        }
 
-        return response()->json(['products'=>$newCart,'pCount'=>$pCount]);
+        return response()->json(['products'=>$newCart,'pCount'=>$pCount,'state'=>$state]);
     }
 
 

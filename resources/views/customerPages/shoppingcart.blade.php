@@ -23,7 +23,7 @@
                         <td><a class="th" href="#"><img src="{{$item->small_image_link}}"></a></td>
                     </tr>
                         @endforeach
-                    <h2>{{$state}}</h2>
+                    <h2 class="h2-state">{{$state}}</h2>
                     </tbody>
                 </table>
                 </div>
@@ -47,6 +47,7 @@
                             success: function(data) {
                                 $('.li-cart').text(""+data.pCount+ " items in your cart");
                                 $('.tb-cart').html("");
+                                $('.h2-state').text(data.state);
                                 var products = data.products;
                                 for(var i=0;i<products.length;i++)
                                 {
@@ -57,9 +58,11 @@
                                         +'<td><a class="th" href="#"><img src="'+products[i].small_image_link+'"></a></td>'
                                         +'</tr>')
                                 }
-                                console.log('test');
+
+
 
                             }
+
                         }
                 );
 
