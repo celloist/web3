@@ -9,6 +9,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Guard;
 
 class NavigationServiceProvider extends ServiceProvider
 {
@@ -17,12 +18,16 @@ class NavigationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Guard $auth)
     {
         // Using class based composers...
         view()->composer(
             'partials.menu', 'App\Http\ViewComposers\MenuComposer'
         );
+
+        view()->composer('*', function ($view) use ($auth) {
+            $view->with('user', $auth->user());
+        });
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use Validator;
+use Auth;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Group;
 use App\Http\Models\User;
@@ -40,6 +42,26 @@ class AuthController extends Controller
         $countries = Config::get('static_values.countries');
 
         return view('auth.register', ['countries' => $countries]);
+    }
+
+    public function postLogin (Request $request) {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        if (!$validator->fails()) {
+            if (!Auth::attempt(['username' => $data['username'], 'password' => $data['password']], isset($data['remember']))) {
+                $validator->errors()->add('username', 'Unable to find a user with the provided username and password!');
+            } else {
+                return redirect('/');
+            }
+        }
+
+        return redirect('login')
+                        ->withErrors($validator)
+                        ->withInput();
     }
 
     /**
