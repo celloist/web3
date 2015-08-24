@@ -22,8 +22,7 @@ class Orders extends Controller
      */
     public function index()
     {
-        
-        $orders = Order::withTotal()->with('user')->get();
+        $orders = Order::withTotal()->with('user.group')->get();
         $orderStates = $this->getProcessedOrderStates();
 
         return view('cms.orders.overview', ['orders' => $orders, 'orderStates' => $orderStates]);
@@ -49,7 +48,7 @@ class Orders extends Controller
      */
     public function edit($id)
     {
-        $order = Order::withTotal()->with('rows.product')->find($id);
+        $order = Order::withTotal()->with(['rows.product','user.group'])->find($id);
         $orderStates = $this->getProcessedOrderStates();
         $vat = Orderrow::vatTotals($id)->get();
         $countries = $this->getProcessedCountries();

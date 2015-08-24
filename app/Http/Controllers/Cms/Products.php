@@ -23,7 +23,7 @@ class Products extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('categories')->get();
 
         return view('cms.products.overview', ['products' => $products]);
     }

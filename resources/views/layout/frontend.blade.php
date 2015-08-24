@@ -24,7 +24,7 @@
 
 
                 <div class="large-6 columns">
-                    <p>© Copyright Cthulu productions  </p>
+                    <p>&copy; Copyright Cthulu productions  </p>
                 </div>
 
 

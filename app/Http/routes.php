@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
+Route::get('/', ['as' => 'root', 'uses' => 'Frontend\Categories@index']);
+Route::get('/home', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
 
 //Frontend routes
 Route::get('/about',['as' => 'about', function () {
@@ -29,6 +30,9 @@ Route::get('/logout', function () {
 
 	return redirect('/');
 });
+
+Route::get('/login', ['as' => 'loginGet', 'uses' => 'Auth\AuthController@getLogin']);
+Route::post('/login', ['as' => 'loginPost', 'uses' => 'Auth\AuthController@postLogin']);
 
 Route::get('categories/{id}', ['as' => 'products','uses'=>'Frontend\Products@index']);
 Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
