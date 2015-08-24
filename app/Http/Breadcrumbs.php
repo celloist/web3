@@ -40,3 +40,21 @@ Breadcrumbs::register('products', function($breadcrumbs, $id)
     $breadcrumbs->parent('categories');
     $breadcrumbs->push($page->name, route('products', ['id' =>$page->id]));
 });
+
+//Home > shoppingcart
+Breadcrumbs::register('shoppingcart', function($breadcrumbs)
+{
+    $breadcrumbs->parent('categories');
+    $breadcrumbs->push('Shopping cart', route('shoppingcart'));
+
+});
+
+//Home > shoppingcart >checkout
+Breadcrumbs::register('checkout', function($breadcrumbs)
+{
+    $breadcrumbs->parent('categories');
+    $breadcrumbs->push('Shopping cart', route('shoppingcart'));
+    $breadcrumbs->push('Check out', route('checkout'));
+
+});
+

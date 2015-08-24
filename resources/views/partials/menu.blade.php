@@ -1,4 +1,4 @@
-<div class="sticky">
+<div class="sticky"  style="background-color: white">
     <div class="row">
    <div class="small-2 large-4 columns"> <h1 style="color: #ffcc00">Goldenfingers</h1></div>
    <div class="large-3 columns">

@@ -33,16 +33,21 @@ Route::get('/logout', function () {
 Route::get('categories/{id}', ['as' => 'products','uses'=>'Frontend\Products@index']);
 Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
 Route::get('categories', ['as' => 'categories', 'uses' => 'Frontend\Categories@index']);
-Route::get('shoppingcart', ['as' => 'shoppingcart', 'uses' => 'Frontend\Products@shoppingcart']);
+Route::get('shoppingcart', ['as' => 'shoppingcart', 'uses' => 'Frontend\ShoppingCart@shoppingcart']);
+Route::get('checkout', ['as' => 'checkout', 'uses' => 'Frontend\Orders@checkOut']);
 Route::get('register', ['as' => 'registerGet', 'uses' => 'Auth\AuthController@getRegister']);
 Route::post('register', 'Auth\AuthController@postRegister');
 
+Route::post('submit', 'Frontend\Orders@submit');
+Route::get('/thankyou',['as' => 'thankyou', function () {
+	return View('customerPages.thankyou');
+}]);
 
 
 //Ajax calls
 Route::get('ajax/products/{id}','Frontend\Products@ajax');
-Route::get('ajax/shoppingcart/{id}','Frontend\Products@addToShoppingcart');
-Route::get('ajax/removeitem/{id}', 'Frontend\Products@removeItem');
+Route::get('ajax/shoppingcart/{id}','Frontend\ShoppingCart@addToShoppingcart');
+Route::get('ajax/removeitem/{id}', 'Frontend\ShoppingCarts@removeItem');
 
 //CMS routes
 Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){

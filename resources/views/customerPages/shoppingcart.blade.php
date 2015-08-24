@@ -26,6 +26,7 @@
                     <h2 class="h2-state">{{$state}}</h2>
                     </tbody>
                 </table>
+                <div class="checkout"><a href="{{url('checkout')}}" class="button bt-checkout">Check out</a></div>
                 </div>
             </div>
         </div>
@@ -39,7 +40,6 @@
         $(document).ready(function(){
             $('.tb-cart').on('click','i.remove-item' ,function(){
                 var id = $(this).data('id');
-                console.log('test');
                 $.ajax({
                             url: '/ajax/removeitem/'+id,
                             method: "get",
@@ -49,8 +49,18 @@
                                 $('.tb-cart').html("");
                                 $('.h2-state').text(data.state);
                                 var products = data.products;
+                                console.log(products.length);
+                                if(products.length>0) {
+                                    $('.bt-checkout').bind('click');
+                                }
+                                else
+                                {
+
+                                    $('.bt-checkout').unbind('click');
+                                }
                                 for(var i=0;i<products.length;i++)
                                 {
+                                    check = true;
                                     $('.tb-cart').html( $('.tb-cart').html() + ' <tr>'
                                         +'<td class="td-quantity">Quantity '+products[i].quantity+'</td>'
                                         +'<td>'+products[i].name+'</td>'
