@@ -24,6 +24,11 @@ Route::get('/policy',['as' => 'policy', function () {
 Route::get('/contact',['as' => 'contact', function () {
 	return View('customerPages.contact');
 }]);
+Route::get('/mailtemp',['as' => 'mailtemp', function () {
+	return View('mail.confirmation');
+}]);
+
+
 
 Route::get('/logout', function () {
 	Auth::logout();

@@ -90,8 +90,9 @@ class Orders extends Controller
                 }
 
                 $email = $order->email;
+                $request->session()->put('order',$order);
                 if($email) {
-                    Mail::send(['text' => 'mail.confirmation'],
+                    Mail::send('mail.confirmation',
                         ['email' => $email], function ($m) use ($email) {
                         $m->to($email)->subject('Confirmation');
                     });
