@@ -1,6 +1,10 @@
 <div class="sticky"  style="background-color: white">
+    <div class="large-2 small-6 columns">
+        <img src="{{asset('images/logo.png')}}" style="width:150px;height:128px;">
+    </div>
     <div class="row">
-        <div class="small-2 large-4 columns">
+
+        <div class="small-2 large-2 columns">
             <h1 style="color: #ffcc00">Goldenfingers</h1>
         </div>
         <div class="large-3 columns">
