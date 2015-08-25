@@ -13,30 +13,45 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Order;
 use Illuminate\Http\Request;
+use Validator;
+use Mail;
+
 
 class Orders extends Controller
 {
 
-    public function checkOut()
+    public function checkOut(Request $request)
     {
-        return view('customerPages.checkout');
+        $products = $request->session()->get('products');
+        $user = $request->user();
+        if($products != null && $products>0) {
+            return view('customerPages.checkout')->with('user',$user);
+        }
+        return redirect()->route('categories');
     }
 
+    public function sendMail()
+    {
+        Mail::raw('Confirmation email', function ($message) {
+        $message->to('alhriclacle@gmail.com');
+        });
+        return redirect()->route('thankyou');
+    }
     public function submit(Request $request)
     {
 
         $requestData = $request->all();
-        $validator = $this->getValidator($requestData);
+        $validator = $this->getOrderValidator($requestData);
 
         if (!$validator->fails()) {
 
             $order = new Order();
             $order->firstname = $requestData['firstname'];
             $order->lastname = $requestData['lastname'];
-            $order->adress = $requestData['adress'];
+            $order->adres = $requestData['adres'];
             $order->city = $requestData['city'];
-            $order->zipcode = $requestData['zipcode'];
-            $order->phonenr = $requestData['phonenr'];
+            $order->zip = $requestData['zip'];
+            $order->telephone = $requestData['telephone'];
             $order->email = $requestData['email'];
             $order->status = 'processing';
             $order->deliver_date = date('Y-m-d H:i:s');
@@ -46,29 +61,52 @@ class Orders extends Controller
                 foreach($cart as $item)
                 {
                     $row = new Orderrow();
-                    $row->Order_id = $order->id;
+                    $row->Orders_id = $order->id;
                     $row->Products_id = $item['id'];
                     $row->quantity = $item['quantity'];
                     $row->price = $item['price'];
                     $row->vat = $item['vat'];
 
-                    if(!$item->save())
+                    if(!$row->save())
                     {
                         $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
-                        return redirect()->route('thankyou');
+                        return redirect()->route('checkoutPage')
+                        ->withErrors($validator)
+                        ->withInput();
                     }
                 }
+
+                $request->session()->put('products',array());
+                $request->session()->forget('pCount');
+
                 return redirect()->route('thankyou');
             } else {
                 $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
             }
         }
 
-        return redirect()->route('404')
+        return redirect()->route('checkoutPage')
         ->withErrors($validator)
         ->withInput();
     }
 
 
+    /**
+     * [getValidator description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    private function getOrderValidator (array $requestData) {
+        $rules = [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'adres' => 'required',
+            'city' => 'required',
+            'email' => 'required',
+        ];
+
+
+        return Validator::make($requestData, $rules);
+    }
 
 }

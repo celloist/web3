@@ -69,11 +69,14 @@ class ShoppingCart extends Controller
 
         $shoppingcart = $request->session()->get('products');
         $state = 'Shoppingcart';
+
+
         if($shoppingcart == null)
         {
             $shoppingcart = array();
             $state = 'Shoppingcart is empty';
         }
+
 
         return view('customerPages.shoppingcart')->with('shoppingcart',$shoppingcart)->with('state',$state);
     }

@@ -38,12 +38,12 @@
                 @endif    
             </li>
             <li class="has-form">
-                <div class="row collapse">
+                <div class="row collapse div-search">
                     <div class="large-8 small-9 columns">
-                        <input type="text" placeholder="Products">
+                        <input class="input-search" type="text" placeholder="Products">
                     </div>
                     <div class="large-4 small-3 columns">
-                        <a href="#" class="alert button expand">Search</a>
+                        <a href="#" class="alert button expand search">Search</a>
                     </div>
                 </div>
             </li>
@@ -54,3 +54,22 @@
     {!! Breadcrumbs::renderIfExists() !!}
 
 </div>
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.div-search').on('click','a.search' ,function() {
+                var value = $('.input-search').val();
+                $.ajax({
+                    url: '/ajax/searchproduct/' + value,
+                    method: "post",
+                    dataType: 'json',
+                    success: function (data) {
+                        $('.li-cart').text("" + data.pCount + " items in your cart");
+                    }
+                })
+            })
+        });
+
+    </script>
+    @endsection

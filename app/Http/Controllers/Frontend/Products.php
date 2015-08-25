@@ -43,6 +43,13 @@ class Products extends Controller
             return response()->json(['product'=>$product]);
 
     }
+    public function searchProduct($value)
+    {
+        $products = DB::table('products')->where('votes', '=', 100)->get();
+        return response()->json(['product'=>$product]);
+
+    }
+
 
 
 

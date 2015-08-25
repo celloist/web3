@@ -8,6 +8,7 @@
 
                 <div class="large-8 columns">
                     <div class="row">
+                        <div><a href="{{url('sendmail')}}">send mail madafaka</a></div>
                         @foreach ($categories as $category)
 
                         <div class="large-4 small-6 columns" id="{{$category->id}}">

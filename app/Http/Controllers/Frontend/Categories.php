@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Categorie;
+use Illuminate\Support\Facades\Auth;
 
 class Categories extends Controller
 {
@@ -20,12 +21,13 @@ class Categories extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = Categorie::all();
-
         return view('customerPages.categories')->with('categories',$data);
     }
+
+
 
 
 }

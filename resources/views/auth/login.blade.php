@@ -1,6 +1,8 @@
 @extends('layout.frontend')
 
 @section('fcontent')
+    <div class="row">
+    <div class="large-12 columns">
     @if (count($errors) > 0)
         <div data-alert="" class="alert-box alert">
             <ul>
@@ -14,12 +16,12 @@
     <form method="POST" action="/login">
         {!! csrf_field() !!}
 
-        <div>
+        <div class="large-3 rows">
             Username
             <input type="text" name="username" value="{{ old('username') }}">
         </div>
 
-        <div>
+        <div class="large-3 rows">
             Password
             <input type="password" name="password" id="password">
         </div>
@@ -32,4 +34,6 @@
             <button type="submit">Login</button>
         </div>
     </form>
+    </div>
+    </div>
 @endsection    

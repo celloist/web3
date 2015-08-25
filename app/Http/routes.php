@@ -31,27 +31,35 @@ Route::get('/logout', function () {
 	return redirect('/');
 });
 
+//auth route
 Route::get('/login', ['as' => 'loginGet', 'uses' => 'Auth\AuthController@getLogin']);
 Route::post('/login', ['as' => 'loginPost', 'uses' => 'Auth\AuthController@postLogin']);
 
+//page routes
 Route::get('categories/{id}', ['as' => 'products','uses'=>'Frontend\Products@index']);
 Route::get('/', ['as' => 'home', 'uses' => 'Frontend\Categories@index']);
 Route::get('categories', ['as' => 'categories', 'uses' => 'Frontend\Categories@index']);
 Route::get('shoppingcart', ['as' => 'shoppingcart', 'uses' => 'Frontend\ShoppingCart@shoppingcart']);
-Route::get('checkout', ['as' => 'checkout', 'uses' => 'Frontend\Orders@checkOut']);
 Route::get('register', ['as' => 'registerGet', 'uses' => 'Auth\AuthController@getRegister']);
 Route::post('register', 'Auth\AuthController@postRegister');
 
-Route::post('submit', 'Frontend\Orders@submit');
-Route::get('/thankyou',['as' => 'thankyou', function () {
+//order processing
+Route::get('checkout', ['as' => 'checkoutPage', 'uses' => 'Frontend\Orders@checkOut']);
+Route::post('postCheckout',['as' => 'postCheckout', 'uses' => 'Frontend\Orders@submit']);
+Route::get('thankyou',['as' => 'thankyou', function () {
 	return View('customerPages.thankyou');
 }]);
 
+//mailer
+Route::get('sendmail',['as' => 'sendmail', 'uses' => 'Frontend\Orders@sendMail']);
 
 //Ajax calls
 Route::get('ajax/products/{id}','Frontend\Products@ajax');
+Route::post('ajax/searchproduct/{value}', 'Frontend\Products@searchProduct');
 Route::get('ajax/shoppingcart/{id}','Frontend\ShoppingCart@addToShoppingcart');
-Route::get('ajax/removeitem/{id}', 'Frontend\ShoppingCarts@removeItem');
+Route::get('ajax/removeitem/{id}', 'Frontend\ShoppingCart@removeItem');
+
+
 
 //CMS routes
 Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){

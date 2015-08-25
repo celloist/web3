@@ -11,3 +11,13 @@
 
 
 @endsection
+
+@section('scripts')
+    @parent
+    <script>
+            $( window ).load(function() {
+                $('.li-cart').text("0 items in your cart");
+            });
+
+    </script>
+    @endsection

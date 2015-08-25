@@ -49,18 +49,9 @@
                                 $('.tb-cart').html("");
                                 $('.h2-state').text(data.state);
                                 var products = data.products;
-                                console.log(products.length);
-                                if(products.length>0) {
-                                    $('.bt-checkout').bind('click');
-                                }
-                                else
-                                {
-
-                                    $('.bt-checkout').unbind('click');
-                                }
                                 for(var i=0;i<products.length;i++)
                                 {
-                                    check = true;
+
                                     $('.tb-cart').html( $('.tb-cart').html() + ' <tr>'
                                         +'<td class="td-quantity">Quantity '+products[i].quantity+'</td>'
                                         +'<td>'+products[i].name+'</td>'
