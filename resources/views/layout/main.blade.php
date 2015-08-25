@@ -13,13 +13,5 @@
 
     <body>
         @yield("content")
-
-        @section("scripts")
-            <script src="/js/vendor/jquery.js"></script>
-            <script src="/js/foundation.min.js"></script>
-            <script>
-            $(document).foundation();
-            </script>
-        @show
     </body>
 </html>

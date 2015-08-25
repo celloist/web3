@@ -23,7 +23,7 @@ class Categories extends Controller
      */
     public function index(Request $request)
     {
-        $data = Categorie::all();
+        $data = Categorie::withProductThumb()->havingProducts()->get();
         return view('customerPages.categories')->with('categories',$data);
     }
 

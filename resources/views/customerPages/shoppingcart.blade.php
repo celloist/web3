@@ -17,21 +17,31 @@
                     <tbody class="tb-cart">
                     @foreach($shoppingcart as $item)
                     <tr>
-                        <td class="td-quantity">Quantity {{$item->quantity}}</td>
-                        <td>{{$item->name}}</td>
-                        <td><a href="#"><i class="fi-x remove-item" data-id="{{$item->id}}"></i></a></td>
-                        <td><a class="th" href="#"><img src="{{$item->small_image_link}}"></a></td>
+                        <td class="td-quantity">
+                            {{ $item->quantity }}
+                        </td>
+                        <td>
+                            {{$item->name}}
+                        </td>
+                        <td>
+                            <a href="#"><i class="fi-x remove-item" data-id="{{$item->id}}"></i></a>
+                        </td>
+                        <td>
+                            <a class="th" href="#"><img style="max-height: 80px; max-width: 80px;" src="{{ relative_images_path() . '/'. $item->artikelnr . '/' . $item->small_image_link }}"></a>
+                        </td>
                     </tr>
-                        @endforeach
+                    @endforeach
+                    
                     <h2 class="h2-state">{{$state}}</h2>
-                    </tbody>
+                </tbody>
                 </table>
-                <div class="checkout"><a href="{{url('checkout')}}" class="button bt-checkout">Check out</a></div>
+                
+                <div class="checkout">
+                    <a href="{{url('checkout')}}" class="button bt-checkout">Check out</a>
                 </div>
             </div>
         </div>
-
-
+    </div>
 @endsection
 
 @section('scripts')
@@ -41,33 +51,25 @@
             $('.tb-cart').on('click','i.remove-item' ,function(){
                 var id = $(this).data('id');
                 $.ajax({
-                            url: '/ajax/removeitem/'+id,
-                            method: "get",
-                            dataType: 'json',
-                            success: function(data) {
-                                $('.li-cart').text(""+data.pCount+ " items in your cart");
-                                $('.tb-cart').html("");
-                                $('.h2-state').text(data.state);
-                                var products = data.products;
-                                for(var i=0;i<products.length;i++)
-                                {
+                    url: '/ajax/removeitem/'+id,
+                    method: "get",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('.li-cart').text(""+data.pCount+ " items in your cart");
+                        $('.tb-cart').html("");
+                        $('.h2-state').text(data.state);
+                        var products = data.products;
+                        for(var i=0;i<products.length;i++){
 
-                                    $('.tb-cart').html( $('.tb-cart').html() + ' <tr>'
-                                        +'<td class="td-quantity">Quantity '+products[i].quantity+'</td>'
-                                        +'<td>'+products[i].name+'</td>'
-                                        +'<td><a href="#"><i class="fi-x remove-item" data-id="'+products[i].id+'"></i></a></td>'
-                                        +'<td><a class="th" href="#"><img src="'+products[i].small_image_link+'"></a></td>'
-                                        +'</tr>')
-                                }
-
-
-
-                            }
-
+                            $('.tb-cart').html( $('.tb-cart').html() + ' <tr>'
+                                +'<td class="td-quantity">Quantity '+products[i].quantity+'</td>'
+                                +'<td>'+products[i].name+'</td>'
+                                +'<td><a href="#"><i class="fi-x remove-item" data-id="'+products[i].id+'"></i></a></td>'
+                                +'<td><a class="th" href="#"><img src="'+products[i].small_image_link+'"></a></td>'
+                                +'</tr>')
                         }
-                );
-
-
+                    }
+                });
             });
         });
     </script>
