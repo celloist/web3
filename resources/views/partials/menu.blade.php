@@ -56,18 +56,23 @@
 </div>
 
 @section('scripts')
+    @parent
     <script>
         $(document).ready(function() {
             $('.div-search').on('click','a.search' ,function() {
                 var value = $('.input-search').val();
-                $.ajax({
-                    url: '/ajax/searchproduct/' + value,
-                    method: "post",
-                    dataType: 'json',
-                    success: function (data) {
-                        $('.li-cart').text("" + data.pCount + " items in your cart");
-                    }
-                })
+                if(value == '')
+                {alert('Nothing to search please put in a word')}
+                else {
+                    $.ajax({
+                        url: '/ajax/searchproduct/' + value,
+                        method: "post",
+                        dataType: 'json',
+                        success: function (data) {
+                            alert(data.nothing);
+                        }
+                    })
+                }
             })
         });
 

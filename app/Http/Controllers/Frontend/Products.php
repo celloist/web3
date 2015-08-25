@@ -45,11 +45,22 @@ class Products extends Controller
     }
     public function searchProduct($value)
     {
+
         $products = DB::table('products')
         ->where('name', 'LIKE', '*'.$value.'*')
         ->OrWhere('detail', 'LIKE', '*'.$value.'*')
         ->get();
-        return response()->json(['product'=>$products]);
+
+        if(count($products)<1)
+        {
+            $nothing = 'No products found';
+            return response()->json(['nothing'=>$nothing]);;
+        }
+        $first = $products[rand(0,(count($products)-1))];
+
+        $nothing = 'No products found';
+        return response()->json(['nothing'=>$nothing]);;
+        //return view('customerPages.products')->with('products',$products)->with('first',$first);
 
     }
 
