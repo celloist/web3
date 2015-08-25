@@ -78,16 +78,7 @@ class Products extends Controller
         {
             return redirect()->route('categories');
         }
-<<<<<<< HEAD
-        return view('customerPages.searchresults')->with('products',$products)->with('first',$first);
-    }
-
-
-
-
-
-=======
         return view('customerPages.resultspage')->with('products',$products)->with('first',$first);
     }
->>>>>>> b2dec43505f404052e8c4d5674bacb77bc6a1d84
+
 }
