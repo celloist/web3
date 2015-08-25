@@ -1,9 +1,10 @@
 @extends('layout.frontend')
+@section('title', 'Products')
 @section('fcontent')
     <div class="row">
         <div class="large-12 columns">
             <div class="row">
-
+                <h1>Products</h1>
                 <div id="detail-page" class="large-4 small-12 columns">
 
                     <img src="{{ relative_images_path() . '/'. $first->artikelnr . '/' . $first->main_image_link }} ">
@@ -55,8 +56,7 @@
                          $('#detail').html(product['detail']);;
                          $('#price').html('&#8364;'+product['price'])
                     }
-                }
-                );
+                });
 
             });
 
@@ -64,16 +64,14 @@
                 var pCount = 0;
                 var id = $(this).data('id');
                 $.ajax({
-                            url: '/ajax/shoppingcart/'+id,
-                            method: "get",
-                            dataType: 'json',
-                            success: function(data){
-                                pCount = data.pCount;
-                                $('.li-cart').text("" + pCount + " items in your cart");
-                            }
-                        }
-                );
-
+                    url: '/ajax/shoppingcart/'+id,
+                    method: "get",
+                    dataType: 'json',
+                    success: function(data){
+                        pCount = data.pCount;
+                        $('.li-cart').text("" + pCount + " items in your cart");
+                    }
+                });
             });
         });
     </script>
