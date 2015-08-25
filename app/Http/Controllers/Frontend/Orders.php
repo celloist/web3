@@ -32,10 +32,7 @@ class Orders extends Controller
 
     public function sendMail()
     {
-//        Mail::raw('Confirmation email', function ($message) {
-//        $message->to('alhriclacle@gmail.com');
-//        });
-        mail('alhriclacle@gmail.com','dhfkajhgdf','spamspamspam');
+
         return redirect()->route('thankyou');
     }
     public function submit(Request $request)
@@ -77,8 +74,14 @@ class Orders extends Controller
                     }
                 }
 
+                $email = $requestData['email'];
+                Mail::raw('Thank you for your purchase '.$order->firstname." ".$order->lastname." we will contact you shortly",['email'=>$email], function ($message) use ($email) {
+                    $message->to($email);
+                });
+
                 $request->session()->put('products',array());
                 $request->session()->forget('pCount');
+
 
                 return redirect()->route('thankyou');
             } else {
