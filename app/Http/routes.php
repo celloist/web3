@@ -55,7 +55,7 @@ Route::get('sendmail',['as' => 'sendmail', 'uses' => 'Frontend\Orders@sendMail']
 
 //Ajax calls
 Route::get('ajax/products/{id}','Frontend\Products@ajax');
-Route::post('ajax/searchproduct/{value}', 'Frontend\Products@searchProduct');
+Route::get('ajax/searchproduct/{value}', 'Frontend\Products@searchProduct');
 Route::get('ajax/shoppingcart/{id}','Frontend\ShoppingCart@addToShoppingcart');
 Route::get('ajax/removeitem/{id}', 'Frontend\ShoppingCart@removeItem');
 
