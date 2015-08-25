@@ -11,113 +11,89 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
+use App\Http\Models\Cart;
 use Illuminate\Http\Request;
 
 class ShoppingCart extends Controller
 {
 
-    public function addToShoppingcart(Request $request,$id)
+    public function addToShoppingcart(Request $request, $id)
     {
-        $pCount = 0;
-        $exists = false;
+        $cart = $this->getCart($request);
         $product = Product::findOrFail($id);
-        //check is there is an array of products
-        if ($product != null)
-        {
-            if(!$request->session()->has('products'))
-            {
-                $request->session()->put('products',array());
-            }
-
-            //returns shoppingcart
-            $products = $request->session()->get('products');
-
-            //checks if products already exists in shoppingcart and adds 1 if true
-            foreach($products as $p)
-            {
-                if ($p['id'] == $product['id'])
-                {
-                    $exists = true;
-                    $p['quantity']+=1;
-                }
-            }
-
-            //adds a quantity var if it doesn't exist
-            if(!$exists)
-            {
-                $product['quantity'] = 1;
-                array_push($products,$product);
-            }
-
-        }
-        $request->session()->put('products',$products);
-
-        foreach($products as $p)
-        {
-            $count = $p['quantity'];
-            $pCount += $count;
+        if ($product){
+            $cart->addItem($product);
         }
 
-        $request->session()->put('pCount',$pCount);
+        $pCount = $cart->getCount();
 
         return response()->json(['pCount'=>$pCount]);
 
     }
 
-    public function shoppingcart(Request $request)
-    {
-
-        $shoppingcart = $request->session()->get('products');
-        $state = 'Shoppingcart';
-
-
-        if($shoppingcart == null)
-        {
-            $shoppingcart = array();
-            $state = 'Shoppingcart is empty';
-        }
-
-
-        return view('customerPages.shoppingcart')->with('shoppingcart',$shoppingcart)->with('state',$state);
-    }
-
     public function removeItem(Request $request,$id)
     {
         $product = Product::findOrFail($id);
-        $newCart = array();
-        $products = $request->session()->get('products');
+        $cart = $this->getCart($request);
 
-        foreach ($products as $p) {
-            if ($p['id'] == $product['id'])
-            {
-                $p['quantity'] = $p['quantity']-1;
-            }
-
-            if ($p['quantity'] > 0)
-            {
-                array_push($newCart, $p);
-            }
+        if ($product) {
+            $cart->removeItem($product);
         }
 
-        $pCount = $request->session()->get('pCount');
-        if($pCount >0)
-        {
-            $pCount = $pCount-1;
-            $request->session()->put('pCount',$pCount);
+        $pCount = $cart->getCount();
+
+        return response()->json(['pCount'=>$pCount]);
+    }
+
+    public function updateItemQuantity (Request $request, $id, $quantity) 
+    {
+        $product = Product::findOrFail($id);
+        $cart = $this->getCart($request);
+
+        if ($product) {
+            $cart->updateQuantity($product, $quantity);
         }
 
-        $request->session()->put('products',$newCart);
+        $pCount = $cart->getCount();
 
-        if(count($newCart)<1)
-        {
+        return response()->json(['pCount'=>$pCount]);
+    }
+
+    public function shoppingcart(Request $request)
+    {
+        return view('customerPages.shoppingcart', $this->getShoppingcartData($request));
+    }
+
+    public function shoppingCartOnly (Request $request) 
+    {
+        return view('partials.shoppingcart', $this->getShoppingcartData($request));
+    }
+
+    private function getShoppingcartData(Request $request)
+    {
+        $cart = $this->getCart($request);
+        $state = 'Shoppingcart';
+        $shoppingcart = $cart->getItems();
+
+
+        if($shoppingcart == null){
             $state = 'Shoppingcart is empty';
         }
-        else
-        {
-            $state = 'Shoppingcart';
+
+
+        return [
+            'shoppingcart' => $shoppingcart,
+            'totalprice' => $cart->getTotal(),
+            'state' => $state
+        ];
+    }
+
+    private function getCart (Request $request) {
+        if(!$request->session()->has('cart')) {
+            $request->session()->put('cart', new Cart());
         }
 
-        return response()->json(['products'=>$newCart,'pCount'=>$pCount,'state'=>$state]);
+        return $request->session()->get('cart');
     }
 
 }

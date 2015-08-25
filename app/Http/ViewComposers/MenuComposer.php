@@ -29,13 +29,13 @@ class MenuComposer {
     {
         $menus = Navigation::allSorted()->get();
 
-        if(session('pCount')==null)
+        if(session('cart')==null)
         {
             $pCount = 0;
         }
         else
         {
-            $pCount = session('pCount');
+            $pCount = session('cart')->getCount();
         }
 
         $view->with('menus', $menus)->with('pCount',$pCount);
