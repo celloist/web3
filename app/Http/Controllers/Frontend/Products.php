@@ -44,7 +44,6 @@ class Products extends Controller
     {
             $product = Product::findOrFail($id);
             return response()->json(['product'=>$product]);
-
     }
 
     public function searchProduct(Request $request, $value)
@@ -78,6 +77,6 @@ class Products extends Controller
         {
             return redirect()->route('categories');
         }
-        return view('customerPages.searchresults')->with('products',$products)->with('first',$first);
+        return view('customerPages.resultspage')->with('products',$products)->with('first',$first);
     }
 }

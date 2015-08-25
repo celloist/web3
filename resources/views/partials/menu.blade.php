@@ -1,6 +1,6 @@
-<div class="sticky"  style="background-color: white">
+<div class="fixed"  style="background-color: white">
     <div class="large-2 small-6 columns">
-        <img src="{{asset('images/logo.png')}}" style="width:150px;height:128px;">
+        <img src="{{asset('images/logo.png')}}" style="width:100px;height:75px;">
     </div>
     <div class="row">
 
@@ -15,6 +15,7 @@
             </a>
         </div>
     </div>
+
     <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area">
             <li class="name">

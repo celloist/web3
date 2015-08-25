@@ -7,7 +7,7 @@
                 <h1>Products</h1>
                 <div id="detail-page" class="large-4 small-12 columns">
 
-                    <img src="{{ relative_images_path() . '/'. $first->artikelnr . '/' . $first->main_image_link }} ">
+                    <img id="img-detail" src="{{ relative_images_path() . '/'. $first->artikelnr . '/' . $first->main_image_link }} ">
 
                     <div class="hide-for-small panel">
                         <h3 id="name">{{ $first->name }}</h3>
@@ -53,8 +53,10 @@
                      success: function(data){
                          product = data.product;
                          $('#name').text(product['name']);
-                         $('#detail').html(product['detail']);;
-                         $('#price').html('&#8364;'+product['price'])
+                         $('#detail').html(product['detail']);
+                         $('#price').html('&#8364;'+product['price']);
+                         var src = ("{{ relative_images_path()}}"+ "/"+ product['artikelnr'] + "/"+ product['main_image_link']);
+                         $('#img-detail').attr('src',src);
                     }
                 });
 
