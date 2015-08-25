@@ -23,8 +23,8 @@
 					<td>&euro; {{ number_format($order->total, 2, ',', '.') }}</td>
 					<td>{{ $order->formatted_create_date }}</td>
 					<td>{{ $order->formatted_deliver_date }}</td>
-					<td>{{ $orderStates[$order->status] }}</td>
-					<td>{{ $order->user->name . ' ' . $order->user->last_name }}</td>
+					<td>{{ (array_key_exists($order->status, $orderStates) ? $orderStates[$order->status] : $order->status) }}</td>
+					<td>{{ $order->firstname . ' ' . $order->lastname }}</td>
 				</tr>
 			@endforeach
 		</tbody>
