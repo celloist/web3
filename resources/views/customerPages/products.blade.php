@@ -20,18 +20,16 @@
                     <div class="row">
                         @foreach($products as $product)
 
-                        <div class="large-4 small-6 columns" >
-                            <img class="detail" data-id="{{$product->id}}" src="{{ relative_images_path() . '/'. $product->artikelnr . '/' . $product->small_image_link }}">
-                            <div class="panel">
+                            <div class="large-4 small-6 columns" >
+                                <img class="detail" data-id="{{$product->id}}" src="{{ relative_images_path() . '/'. $product->artikelnr . '/' . $product->small_image_link }}">
+                                <div class="panel">
 
-                                <h5>{{$product->name}}</h5>
-                                <h6 class="subheader">&#8364;{{$product->price}}</h6>
-                                <h6><a href="#"> <i class="fi-shopping-cart small add" data-id="{{$product->id}}"></i></a> </h6>
+                                    <h5>{{$product->name}}</h5>
+                                    <h6 class="subheader">&#8364;{{$product->price}}</h6>
+                                    <h6><a href="#"> <i class="fi-shopping-cart small add" data-id="{{$product->id}}"></i></a> </h6>
+                                </div>
                             </div>
-                        </div>
-
-                            @endforeach
-                    </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -39,6 +37,7 @@
     </div>
 
 @endsection
+
 @section('scripts')
     @parent
     <script>

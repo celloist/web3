@@ -24,16 +24,18 @@ class Products extends Controller
      */
     public function index($category_id)
     {
-        $products = Product::where('Categories_id','=',$category_id)->get();
+        $products = Product::whereCategory($category_id)->get();
         $category = Categorie::findOrFail($category_id);
-        if(count($products)<1)
-        {
+        if(count($products)<1){
             return redirect()->route('categories');
         }
         $first = $products[rand(0,(count($products)-1))];
 
 
-        return view('customerPages.products')->with('products',$products)->with('category',$category)->with('first',$first);
+        return view('customerPages.products')
+            ->with('products',$products)
+            ->with('category',$category)
+            ->with('first',$first);
     }
 
 
@@ -45,16 +47,11 @@ class Products extends Controller
     }
     public function searchProduct($value)
     {
-        $products = DB::table('products')
-        ->where('name', 'LIKE', '*'.$value.'*')
-        ->OrWhere('detail', 'LIKE', '*'.$value.'*')
-        ->get();
+        $products = Product::where('name', 'LIKE', '*'.$value.'*')
+                            ->OrWhere('detail', 'LIKE', '*'.$value.'*')
+                            ->get();
         return response()->json(['product'=>$products]);
 
     }
-
-
-
-
 
 }

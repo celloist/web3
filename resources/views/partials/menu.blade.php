@@ -56,6 +56,7 @@
 </div>
 
 @section('scripts')
+    @parent
     <script>
         $(document).ready(function() {
             $('.div-search').on('click','a.search' ,function() {

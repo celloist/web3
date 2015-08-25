@@ -2,7 +2,7 @@
 @section('content')
     @include('partials.menu')
 
-    @yield('fcontent')
+        @yield('fcontent')
     <footer class="row">
         <div class="large-12 columns"><hr/>
             <div class="panel">
@@ -31,5 +31,13 @@
             </div>
         </div>
     </footer>
+
+    @section("scripts")
+    <script src="/js/vendor/jquery.js"></script>
+    <script src="/js/foundation.min.js"></script>
+    <script>
+    $(document).foundation();
+    </script>
+    @show
 @endsection
 
