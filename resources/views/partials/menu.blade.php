@@ -66,7 +66,7 @@
                 else {
                     $.ajax({
                         url: '/ajax/searchproduct/' + value,
-                        method: "post",
+                        method: "get",
                         dataType: 'json',
                         success: function (data) {
                             alert(data.nothing);

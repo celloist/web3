@@ -13,6 +13,7 @@ use App\Http\Models\Categorie;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 class Products extends Controller
@@ -45,22 +46,20 @@ class Products extends Controller
     }
     public function searchProduct($value)
     {
-
         $products = DB::table('products')
         ->where('name', 'LIKE', '*'.$value.'*')
         ->OrWhere('detail', 'LIKE', '*'.$value.'*')
         ->get();
 
-        if(count($products)<1)
+        if(count($products)<1 ||$products ==null)
         {
             $nothing = 'No products found';
             return response()->json(['nothing'=>$nothing]);;
         }
         $first = $products[rand(0,(count($products)-1))];
 
-        $nothing = 'No products found';
-        return response()->json(['nothing'=>$nothing]);;
-        //return view('customerPages.products')->with('products',$products)->with('first',$first);
+
+        return view('customerPages.products')->with('products',$products)->with('first',$first);
 
     }
 
