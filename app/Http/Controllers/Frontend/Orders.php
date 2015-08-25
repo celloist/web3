@@ -74,10 +74,14 @@ class Orders extends Controller
                     }
                 }
 
-                $email = $requestData['email'];
-                Mail::raw('Thank you for your purchase '.$order->firstname." ".$order->lastname." we will contact you shortly",['email'=>$email], function ($message) use ($email) {
-                    $message->to($email);
-                });
+                $email = $order->email;
+                if($email) {
+                    Mail::send(['text' => 'mail.confirmation'],
+                        ['email' => $email], function ($m) use ($email) {
+                        $m->to($email)->subject('Confirmation');
+                    });
+
+                }
 
                 $request->session()->put('products',array());
                 $request->session()->forget('pCount');
