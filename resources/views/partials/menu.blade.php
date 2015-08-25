@@ -71,12 +71,12 @@
                         method: "get",
                         dataType: 'json',
                         success: function (data) {
-                            {{--if(data.found ==1) {--}}
-                               {{--// window.location.replace("{{url('resultspage')}}");--}}
-                            {{--}--}}
-                            {{--else{--}}
+                            if(data.found ==1) {
+                                window.location.replace("{{url('resultspage')}}");
+                            }
+                            else{
                                 alert(data.nothing);
-//                            }
+                            }
                         }
                     })
                 }

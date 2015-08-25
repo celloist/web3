@@ -50,7 +50,7 @@ Route::get('thankyou',['as' => 'thankyou', function () {
 	return View('customerPages.thankyou');
 }]);
 
-Route::get('results', ['as' => 'resultsPage', 'uses' => 'Frontend\Products@displayResults']);
+Route::get('resultspage', ['as' => 'resultsPage', 'uses' => 'Frontend\Products@displayResults']);
 
 //mailer
 Route::get('sendmail',['as' => 'sendmail', 'uses' => 'Frontend\Orders@sendMail']);

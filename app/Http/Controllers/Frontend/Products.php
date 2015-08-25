@@ -13,9 +13,10 @@ use App\Http\Models\Categorie;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+
 
 class Products extends Controller
 {
@@ -48,24 +49,23 @@ class Products extends Controller
 
     public function searchProduct(Request $request, $value)
     {
-//        $products = DB::table('products')
-//        ->where('name', 'LIKE', '%'.$value.'%')
-//        ->OrWhere('detail', 'LIKE', '%'.$value.'%')
-//        ->get();
-//
-//        $nothing = 'products found';
-//
-//        if(count($products)<1 || $products ==null)
-//        {
-//            $nothing = 'No products found';
-//            return response()->json(['nothing'=>$nothing]);
-//        }
-//
-//        $first = $products[rand(0,(count($products)-1))];
-//        $request->session()->put('firstResult',$first);
-//        $request->session()->put('searchResults',$products);
+        $products = DB::table('products')
+        ->where('name', 'LIKE', '%'.$value.'%')
+        ->OrWhere('detail', 'LIKE', '%'.$value.'%')
+        ->get();
 
-        return response()->json(['nothing'=>'nothing']);
+
+        if(count($products)<1 || $products ==null)
+        {
+            $nothing = 'No products found';
+            return response()->json(['nothing'=>$nothing,'found'=>0]);
+        }
+
+        $first = $products[rand(0,(count($products)-1))];
+        $request->session()->put('firstResult',$first);
+        $request->session()->put('searchResults',$products);
+
+        return response()->json(['nothing'=>'found some stuff','found'=>1]);
 
     }
 
@@ -78,7 +78,7 @@ class Products extends Controller
         {
             return redirect()->route('categories');
         }
-        return view('customerPages.searchPage')->with('products',$products)->with('first',$first);
+        return view('customerPages.resultspage')->with('products',$products)->with('first',$first);
     }
 
 
