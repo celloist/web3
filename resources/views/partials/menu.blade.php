@@ -62,14 +62,21 @@
             $('.div-search').on('click','a.search' ,function() {
                 var value = $('.input-search').val();
                 if(value == '')
-                {alert('Nothing to search please put in a word')}
+                {
+                    alert('Nothing to search please put in a word')
+                }
                 else {
-                    $.ajax({
+                        $.ajax({
                         url: '/ajax/searchproduct/' + value,
                         method: "get",
                         dataType: 'json',
                         success: function (data) {
-                            alert(data.nothing);
+                            {{--if(data.found ==1) {--}}
+                               {{--// window.location.replace("{{url('resultspage')}}");--}}
+                            {{--}--}}
+                            {{--else{--}}
+                                alert(data.nothing);
+//                            }
                         }
                     })
                 }
