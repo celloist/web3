@@ -35,13 +35,14 @@
         
         <!-- Right Nav Section -->
         <ul class="right">
-            <li>
-                @if (!$user)
+            @if (!$user)
+                <li>
                     <a href="/login">Log in</a>
-                @else
-                    <a href="/logout">Log out</a>
-                @endif    
-            </li>
+                </li>
+            @else
+                <li><a href="#">Welkom: {{ $user->name  . ' '. $user->lastname}}</a></li> 
+                <li><a href="/logout">Log out</a></li>
+            @endif    
             <li class="has-form">
                 <div class="row collapse div-search">
                     <div class="large-8 small-9 columns">

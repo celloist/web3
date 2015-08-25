@@ -12,6 +12,7 @@
     </div>
 @endif
 
+<div class="row">
 	<h1>Login</h1>
 	{!! Form::open(['route' => ['cmsLoginPost'], 'method' => 'post']) !!}
 		<div class="row">
@@ -36,4 +37,5 @@
 			</div>
 		</div>
 	{!! Form::close() !!}
+</div>
 @endsection

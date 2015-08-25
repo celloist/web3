@@ -141,16 +141,12 @@
 		<h3>Klant gegevens</h3>
 		<table>
 			<tr>
-				<td>Username</td>
-				<td>{{ $order->user->username }}</td>
-			</tr>
-			<tr>
 				<td>Naam</td>
-				<td>{{ $order->user->name . ' '. $order->user->lastname }}</td>
+				<td>{{ $order->firstname . ' '. $order->lastname }}</td>
 			</tr>
 			<tr>
 				<td>Email</td>
-				<td>{{ $order->user->email }}</td>
+				<td>{{ $order->email }}</td>
 			</tr>
 		</table>
 

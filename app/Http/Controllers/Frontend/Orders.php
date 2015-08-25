@@ -46,7 +46,6 @@ class Orders extends Controller
 
     public function sendMail()
     {
-
         return redirect()->route('thankyou');
     }
 
@@ -59,6 +58,12 @@ class Orders extends Controller
         if (!$validator->fails()) {
 
             $order = new Order();
+
+            $user = $request->user();
+            if ($user){
+                $order->Users_id = $user->id;
+            }
+
             $order->firstname = $requestData['firstname'];
             $order->lastname = $requestData['lastname'];
             $order->adres = $requestData['adres'];
@@ -66,11 +71,11 @@ class Orders extends Controller
             $order->zip = $requestData['zip'];
             $order->telephone = $requestData['telephone'];
             $order->email = $requestData['email'];
-            $order->status = 'processing';
-            $order->deliver_date = date('Y-m-d H:i:s');
+            $order->status = 'placed';
+            //$order->deliver_date = date('Y-m-d H:i:s');
 
             if ($order->save()){
-               $cart = $request->session()->get('products');
+                $cart = $request->session()->get('cart')->getItems();
                 foreach($cart as $item)
                 {
                     $row = new Orderrow();
@@ -80,8 +85,7 @@ class Orders extends Controller
                     $row->price = $item['price'];
                     $row->vat = $item['vat'];
 
-                    if(!$row->save())
-                    {
+                    if(!$row->save()) {
                         $validator->errors()->add('main', 'Er is een onbekende fout opgetreden tijdens het opslaan!');
                         return redirect()->route('checkoutPage')
                         ->withErrors($validator)
@@ -95,11 +99,9 @@ class Orders extends Controller
                         ['email' => $email], function ($m) use ($email) {
                         $m->to($email)->subject('Confirmation');
                     });
-
                 }
 
-                $request->session()->put('products',array());
-                $request->session()->forget('pCount');
+                $request->session()->forget('cart');
 
 
                 return redirect()->route('thankyou');
