@@ -65,7 +65,7 @@ class Products extends Controller
 //        $request->session()->put('firstResult',$first);
 //        $request->session()->put('searchResults',$products);
 
-        return response()->json(['nothing'=>'nothing']);  
+        return response()->json(['nothing'=>'nothing']);
 
     }
 
