@@ -13,19 +13,33 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Traits\ReturnAssoc;
 use Validator;
 use Mail;
-
+use Config;
 
 class Orders extends Controller
 {
-
+    use ReturnAssoc;
     public function checkOut(Request $request)
     {
-        $products = $request->session()->get('products');
+        $count = $request->session()->get('cart')->getCount();
         $user = $request->user();
-        if($products != null && $products>0) {
-            return view('customerPages.checkout')->with('user',$user);
+        if($count>0) {
+
+            $order = new Order();
+            $countries = $this->getProcessedCountries();
+            if ($user) {
+                $order->firstname = $user->name;
+                $order->lastname = $user->lastname;
+                $order->adres = $user->address;
+                $order->country = $user->country;
+                $order->zip = $user->zip;
+                $order->city = $user->city;
+                $order->email = $user->email;
+            }
+
+            return view('customerPages.checkout', ['order' => $order, 'countries' => $countries]);
         }
         return redirect()->route('categories');
     }
@@ -35,6 +49,7 @@ class Orders extends Controller
 
         return redirect()->route('thankyou');
     }
+
     public function submit(Request $request)
     {
 
@@ -108,13 +123,22 @@ class Orders extends Controller
         $rules = [
             'firstname' => 'required',
             'lastname' => 'required',
+            'country' => 'required',
             'adres' => 'required',
             'city' => 'required',
+            'zip' => 'required',
             'email' => 'required',
         ];
 
-
         return Validator::make($requestData, $rules);
     }
+     /**
+     * [getProcessedVat description]
+     * @return [type] [description]
+     */
+    private function getProcessedCountries() {
+        $countries = Config::get('static_values.countries');
 
+        return $this->getAssocValues($countries);
+    }
 }
