@@ -32,9 +32,10 @@ class Orders extends Controller
 
     public function sendMail()
     {
-        Mail::raw('Confirmation email', function ($message) {
-        $message->to('alhriclacle@gmail.com');
-        });
+//        Mail::raw('Confirmation email', function ($message) {
+//        $message->to('alhriclacle@gmail.com');
+//        });
+        mail('alhriclacle@gmail.com','dhfkajhgdf','spamspamspam');
         return redirect()->route('thankyou');
     }
     public function submit(Request $request)

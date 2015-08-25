@@ -45,8 +45,11 @@ class Products extends Controller
     }
     public function searchProduct($value)
     {
-        $products = DB::table('products')->where('votes', '=', 100)->get();
-        return response()->json(['product'=>$product]);
+        $products = DB::table('products')
+        ->where('name', 'LIKE', '*'.$value.'*')
+        ->OrWhere('detail', 'LIKE', '*'.$value.'*')
+        ->get();
+        return response()->json(['product'=>$products]);
 
     }
 
