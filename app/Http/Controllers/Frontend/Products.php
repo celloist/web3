@@ -10,10 +10,9 @@
 namespace App\Http\Controllers\Frontend;
 use App\Http\Models\Categorie;
 
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
-use App\Http\Requests\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
@@ -48,7 +47,7 @@ class Products extends Controller
 
     }
     
-    public function searchProduct(Request $request, $value)
+    public function searchProduct($value)
     {
 //        $products = DB::table('products')
 //        ->where('name', 'LIKE', '%'.$value.'%')
