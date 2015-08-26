@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Models\Product;
 use App\Http\Models\Cart;
 use Illuminate\Http\Request;
+use Config;
 
 class ShoppingCart extends Controller
 {
@@ -22,6 +23,13 @@ class ShoppingCart extends Controller
         $cart = $this->getCart($request);
         $product = Product::findOrFail($id);
         if ($product){
+            $vat = Config::get('static_values.vat');
+            if (isset($vat[$product->vat])) {
+                $product['vat'] = $vat[$product->vat]['value'];
+            } else {
+                $product['vat'] = 0;
+            }
+
             $cart->addItem($product);
         }
 

@@ -103,9 +103,9 @@
 						&euro; {{ number_format($orderrow->price, 2, ',', '.') }}
 						</td>
 
-						<td>
-						{{ $orderrow->quantity }}
-						</td>
+						{{--<td>--}}
+						{{--{{ $orderrow->quantity }}--}}
+						{{--</td>--}}
 
 						<td>
 						&euro; {{ number_format($orderrow->quantity * $orderrow->price, 2, ',', '.') }}
