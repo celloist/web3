@@ -25,7 +25,7 @@
                                 <img class="detail" style="width:300px;height:175px;" data-id="{{$product->id}}" src="{{ relative_images_path() . '/'. $product->artikelnr . '/' . $product->small_image_link }}">
                                 <div class="panel" id="p-panel-{{$product->id}}">
                                     <h5>{{$product->name}}</h5>
-                                    <p><b style="float:left">&#8364;{{$product->price}}</b> <a style="float:right" href="#"> <i class="fi-shopping-cart small add" data-id="{{$product->id}}"></i></a> </p>
+                                    <p><b style="float:left">&#8364;{{$product->price}}</b> <a style="float:right"> <i class="fi-shopping-cart small add" data-id="{{$product->id}}"></i></a> </p>
                                     <div style="clear: both"></div>
                                 </div>
                             </div>
