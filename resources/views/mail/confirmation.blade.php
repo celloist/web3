@@ -792,7 +792,7 @@
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    <h1>Hi, {{session('order')['firstname']." ".session('order')['lastname']}}</h1>
+                                                    <h1>Hi, {{$order->firstname." ".$order->lastname}}</h1>
                                                     <p class="lead">Thank you for your purchase. This is a confirmation email</p>
                                                 </td>
                                                 <td class="expander"></td>
@@ -810,7 +810,6 @@
                                         <table class="twelve columns">
                                             <thead>
                                             <tr>
-                                                <th>Image</th>
                                                 <th>Product</th>
                                                 <th>Quantity</th>
                                                 <th>Price</th>
@@ -819,14 +818,17 @@
                                             </thead>
                                             <tbody>
 
+                                            @foreach($cart as $item)
                                             <tr>
-                                                <td class="panel">{{var_dump(session('cart'))}}</td>
-                                                <td class="panel">dfgdfg</td>
-                                                <td class="expander"></td>
+                                                <td class="panel">{{$item['name']}}</td>
+                                                <td class="panel">{{$item['quantity']}}</td>
+                                                <td class="panel">{{$item['price']}}</td>
+                                                <td class="panel">{{($item['quantity']*$item['price'])}}</td>
                                             </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
-
+                                        <h2><b>Total: {{$total}}</b></h2>
                                     </td>
                                 </tr>
                             </table>
@@ -840,6 +842,7 @@
                                                     <h5>Contact Info:</h5>
                                                     <p>Phone: 408.341.0600</p>
                                                     <p>Email: <a href="mailto:laravel.school@gmail.com">laravel.school@gmail.com</a></p>
+                                                    <img src="{{$message->embed(asset('images/logo.png'))}}" style="width:50px;height:35px;">
                                                 </td>
                                                 <td class="expander"></td>
                                             </tr>

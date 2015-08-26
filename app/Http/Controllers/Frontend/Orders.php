@@ -94,10 +94,10 @@ class Orders extends Controller
                 }
 
                 $email = $order->email;
-                $request->session()->put('order',$order);
+                $total = $request->session()->get('cart')->getTotal();
                 if($email) {
                     Mail::send('mail.confirmation',
-                        ['email' => $email], function ($m) use ($email) {
+                        ['email' => $email,'order'=>$order,'cart'=>$cart,'total'=>$total], function ($m) use ($email) {
                         $m->to($email)->subject('Confirmation');
                     });
                 }
