@@ -27,7 +27,7 @@ class Products extends Controller
      */
     public function index($category_id)
     {
-        $products = Product::where('Categories_id','=',$category_id)->get();
+        $products = Product::where('Categories_id','=',$category_id)->paginate(3);
         $category = Categorie::findOrFail($category_id);
         if(count($products)<1)
         {
