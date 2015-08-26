@@ -23,7 +23,7 @@ class Products extends Controller
      */
     public function index()
     {
-        $products = Product::with('categories')->get();
+        $products = Product::with('categories')->orderBy('name')->paginate(15);
 
         return view('cms.products.overview', ['products' => $products]);
     }

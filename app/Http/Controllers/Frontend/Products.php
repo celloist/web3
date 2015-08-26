@@ -27,7 +27,7 @@ class Products extends Controller
      */
     public function index($category_id)
     {
-        $products = Product::where('Categories_id','=',$category_id)->get();
+        $products = Product::withCategory($category_id)->get();
         $category = Categorie::findOrFail($category_id);
         if(count($products)<1)
         {
@@ -35,24 +35,19 @@ class Products extends Controller
         }
         $first = $products[rand(0,(count($products)-1))];
 
-
         return view('customerPages.products')->with('products',$products)->with('category',$category)->with('first',$first);
     }
 
 
     public function ajax($id)
     {
-            $product = Product::findOrFail($id);
-            return response()->json(['product'=>$product]);
+        $product = Product::findOrFail($id);
+        return response()->json(['product'=>$product]);
     }
 
     public function searchProduct(Request $request, $value)
     {
-        $products = DB::table('products')
-        ->where('name', 'LIKE', '%'.$value.'%')
-        ->OrWhere('detail', 'LIKE', '%'.$value.'%')
-        ->get();
-
+        $products = Product::withSearchable($value)->get();
 
         if(count($products)<1 || $products ==null)
         {
