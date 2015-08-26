@@ -20,11 +20,18 @@ class Users extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('group')->get();
+        $users = User::with('group');
+        $inputs = $request->all();
 
-        return view('cms.users.overview', ['users' => $users]);
+        if (isset($inputs['username']) && !empty($inputs['username'])) {
+            $users = $users->withUsernameLike($inputs['username']);
+        }
+
+        $users = $users->paginate(5);
+
+        return view('cms.users.overview', ['users' => $users])->withInput($inputs);
     }
 
     /**

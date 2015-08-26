@@ -52,7 +52,7 @@ class AuthController extends Controller
         ]);
 
         if (!$validator->fails()) {
-            if (!Auth::attempt(['username' => $data['username'], 'password' => $data['password']], isset($data['remember']))) {
+            if (!Auth::attempt(['username' => $data['username'], 'password' => $data['password'], 'active' => 1], isset($data['remember']))) {
                 $validator->errors()->add('username', 'Unable to find a user with the provided username and password!');
             } else {
                 return redirect('/');
@@ -101,6 +101,8 @@ class AuthController extends Controller
 
         $data['group_id'] = $group['id'];
         $data['password'] = bcrypt($data['password']);
+
+        $data['active'] = 1;
 
         
         return User::create($data);

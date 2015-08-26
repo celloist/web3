@@ -16,7 +16,16 @@ class Product extends Model
         return $this->hasOne('App\Http\Models\Categorie', 'id', 'Categories_id');
     }
 
-    public function scopeWhereCategory ($query, $id) {
+    public function scopeWithCategory ($query, $id) {
     	return $query->where('Categories_id', $id);
+    }
+
+    public function scopeWithSearchable($query, $value) {
+    	return $query->where('name', 'LIKE', '%'.$value.'%')
+        ->OrWhere('detail', 'LIKE', '%'.$value.'%');
+    }
+
+    public function scopeWithArtnr($query, $artnr) {
+        return $query->where('artikelnr', $artnr);
     }
 }

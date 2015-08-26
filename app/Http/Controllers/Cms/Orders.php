@@ -20,12 +20,21 @@ class Orders extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::withTotal()->with('user.group')->get();
+        $input = $request->all();
+
+        
+        $orders = Order::withTotal()->with('user.group');
+        if (isset($input['order_nr']) && !empty($input['order_nr'])) {
+            $orders->withOrdernr($input['order_nr']);
+        }
+
+        $orders = $orders->orderBy('created_at')
+                        ->paginate(10);
         $orderStates = $this->getProcessedOrderStates();
 
-        return view('cms.orders.overview', ['orders' => $orders, 'orderStates' => $orderStates]);
+        return view('cms.orders.overview', ['orders' => $orders, 'orderStates' => $orderStates])->withInput($request->all());
     }
 
     /**
