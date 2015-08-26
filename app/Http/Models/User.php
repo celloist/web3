@@ -57,4 +57,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return false;
     }
+
+    public function scopeWithUsernameLike ($query, $username) {
+        return $query->where('username', 'LIKE', '%'. $username .'%');
+    }
 }

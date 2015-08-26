@@ -26,13 +26,14 @@ class Orders extends Controller
 
         
         $orders = Order::withTotal()->with('user.group');
-        if (isset($input['order_nr'])){
+        if (isset($input['order_nr']) && !empty($input['order_nr'])) {
             $orders->withOrdernr($input['order_nr']);
         }
 
-        $orders = $orders->get();
+        $orders = $orders->orderBy('created_at')
+                        ->paginate(10);
         $orderStates = $this->getProcessedOrderStates();
-        
+
         return view('cms.orders.overview', ['orders' => $orders, 'orderStates' => $orderStates])->withInput($request->all());
     }
 

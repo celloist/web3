@@ -21,11 +21,18 @@ class Products extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('categories')->orderBy('name')->paginate(15);
 
-        return view('cms.products.overview', ['products' => $products]);
+        $inputs = $request->all();
+        $products = Product::with('categories');
+        if (isset($inputs['artikelnr']) && !empty($inputs['artikelnr'])) {
+            $products = $products->withArtnr($inputs['artikelnr']);
+        }
+
+        $products = $products->orderBy('name')->paginate(15);
+
+        return view('cms.products.overview', ['products' => $products])->withInput($inputs);
     }
 
     /**

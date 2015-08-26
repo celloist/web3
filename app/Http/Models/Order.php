@@ -34,8 +34,4 @@ class Order extends Model
     public function scopeWithOrdernr ($query, $id) {
         return $query->where('id', $id);
     }
-
-    public function scopeWithCustomPagination ($query, $limit, $offset) {
-        
-    }
 }

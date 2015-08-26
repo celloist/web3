@@ -24,4 +24,8 @@ class Product extends Model
     	return $query->where('name', 'LIKE', '%'.$value.'%')
         ->OrWhere('detail', 'LIKE', '%'.$value.'%');
     }
+
+    public function scopeWithArtnr($query, $artnr) {
+        return $query->where('artikelnr', $artnr);
+    }
 }

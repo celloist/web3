@@ -1,6 +1,21 @@
 @extends('cms.layout.backend')
 @section('title', 'Products')
 @section('fcontent')
+	{!! Form::open(['method' => 'get']) !!}
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="row collapse">
+					<div class="small-10 columns">
+					{!! Form::text('artikelnr', Input::get('artikelnr'), ['placeholder' => 'Article number']) !!}
+					</div>
+
+					<div class="small-2 columns">
+						<button type="submit" class="button postfix">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	{!! Form::close() !!}
 	<a href="{{ URL::Route('beheer.products.create') }}" class="button success">Nieuw product</a>
 	@if (count($products) > 0)
 		<table>
