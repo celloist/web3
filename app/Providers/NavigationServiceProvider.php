@@ -25,7 +25,7 @@ class NavigationServiceProvider extends ServiceProvider
             'partials.menu', 'App\Http\ViewComposers\MenuComposer'
         );
 
-        view()->composer('*', function ($view) use ($auth) {
+        view()->composer(['partials.menu', 'cms.layout.backend'], function ($view) use ($auth) {
             $view->with('user', $auth->user());
         });
     }

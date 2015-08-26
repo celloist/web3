@@ -68,9 +68,6 @@ Route::get('ajax/shoppingcartonly/','Frontend\ShoppingCart@shoppingCartOnly');
 Route::get('ajax/removeitem/{id}', 'Frontend\ShoppingCart@removeItem');
 Route::get('ajax/updateitem-quantity/{id}/{quantity}', 'Frontend\ShoppingCart@updateItemQuantity');
 
-
-
-
 //CMS routes
 Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
 	Route::get('/', ['uses' => 'Login@index', 'as' => 'cmsLoginGet']);
@@ -84,6 +81,11 @@ Route::group(['namespace' => 'Cms', 'prefix' => 'beheer'], function (){
 		Route::resource('categories', 'Categories');
 		Route::resource('navigation', 'Navigation');
 		Route::resource('users', 'Users');
+		Route::get('import', ['uses' => 'Import@getUploadZip', 'as' => 'getUploadZip']);
+		Route::get('import/uploadzip', ['uses' => 'Import@getUploadZip', 'as' => 'getUploadZip']);
+		Route::post('import/uploadzip', ['uses' => 'Import@postUploadZip', 'as' => 'postUploadZip']);
+		Route::get('import/uploadexcel', ['uses' => 'Import@getUploadExcel', 'as' => 'getUploadExcel']);
+		Route::post('import/uploadexcel', ['uses' => 'Import@postUploadExcel', 'as' => 'postUploadExcel']);
 	});
 });
 
