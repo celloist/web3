@@ -11,7 +11,7 @@
                         @foreach ($categories as $category)
                             <div class="large-4 small-6 columns" id="{{$category->id}}" data-equalizer-watch>
                                 <a href="{{url('categories/'.$category->id)}}">
-                                    <img src="{{ relative_images_path() . '/' . $category->thumb }}">
+                                    <div style="min-height: 10em; width: 10em; background: url('{{ relative_images_path() . '/' . $category->thumb }}') center no-repeat;"></div>
 
                                     <div class="panel">
                                         <h5>{{ $category->name }}</h5>

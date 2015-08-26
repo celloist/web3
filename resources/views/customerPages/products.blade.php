@@ -22,19 +22,21 @@
                         @foreach($products as $product)
 
                             <div class="large-4 small-6 columns" >
-                                <img class="detail" data-id="{{$product->id}}" src="{{ relative_images_path() . '/'. $product->artikelnr . '/' . $product->small_image_link }}">
-                                <div class="panel">
-
+                                <img class="detail" style="width:300px;height:175px;" data-id="{{$product->id}}" src="{{ relative_images_path() . '/'. $product->artikelnr . '/' . $product->small_image_link }}">
+                                <div class="panel" id="p-panel-{{$product->id}}">
                                     <h5>{{$product->name}}</h5>
-                                    <h6 class="subheader">&#8364;{{$product->price}}</h6>
-                                    <h6><a href="#"> <i class="fi-shopping-cart small add" data-id="{{$product->id}}"></i></a> </h6>
+                                    <p><b style="float:left">&#8364;{{$product->price}}</b> <a style="float:right" href="#"> <i class="fi-shopping-cart small add" data-id="{{$product->id}}"></i></a> </p>
+                                    <div style="clear: both"></div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
+
                 </div>
             </div>
         </div>
+
+        {!! $products->render() !!}
     </div>
 
 @endsection
@@ -72,6 +74,15 @@
                     success: function(data){
                         pCount = data.pCount;
                         $('.li-cart').text("" + pCount + " items in your cart");
+                        $('#p-panel-'+id).append('<div data-alert class="alert-box success radius" id="div-temp">Added to cart</div>');
+                        setTimeout(
+                                function()
+                                {
+                                    $("#div-temp").fadeOut( "slow", function() {
+                                        $('#div-temp').remove();
+                                    });
+
+                                }, 1000);
                     }
                 });
             });
